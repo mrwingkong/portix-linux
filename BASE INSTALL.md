@@ -12,7 +12,7 @@ dd if=/dev/zero of=/dev/sda bs=1M count=10 status=progress conv=fsync
 sync
 
 cfdisk /dev/sda
-# Inside cfdisk – example layout:
+## Inside cfdisk – example layout:
  sda1    512M   EFI System
  
  sda2      2M   BIOS boot
