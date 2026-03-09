@@ -250,11 +250,11 @@ chmod +x ~/.config/autostart/refresh-icons.sh
 
 nano ~/.config/autostart/refresh-icons.desktop
 
-# Paste (replace /home/mrwingkong with your actual $HOME):
+# Paste (replace /home/USERNAME with your actual $HOME):
 
 [Desktop Entry]
 Type=Application
-Exec=/home/mrwingkong/.config/autostart/refresh-icons.sh
+Exec=/home/USERNAME/.config/autostart/refresh-icons.sh
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
