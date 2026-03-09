@@ -58,10 +58,15 @@ mount /dev/sda1 /mnt/boot
 connmanctl
 # inside connmanctl:
 enable wifi
+
 scan wifi
+
 services
+
 agent on
+
 connect wifi_xxxxxxxxxx     # ← your network name from services
+
 quit
 
 # Optional – time sync
@@ -69,8 +74,7 @@ rc-service ntpd start
 
 ## 5. Base system
 
-basestrap /mnt base base-devel openrc elogind-openrc linux linux-headers \
-         linux-firmware intel-ucode sof-firmware nano
+basestrap /mnt base base-devel openrc elogind-openrc linux linux-headers linux-firmware intel-ucode sof-firmware nano
 
 fstabgen -U /mnt > /mnt/etc/fstab
 
@@ -79,20 +83,25 @@ fstabgen -U /mnt > /mnt/etc/fstab
 artix-chroot /mnt
 
 ln -sf /usr/share/zoneinfo/UK/London /etc/localtime
+
 hwclock --systohc
 
 nano /etc/locale.gen
 # uncomment:    en_GB.UTF-8 UTF-8
 locale-gen
+
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 
 echo "artix-lxqt" > /etc/hostname
+
 echo 'hostname="artix-lxqt"' > /etc/conf.d/hostname
 
 nano /etc/hosts
 # Add:
 127.0.0.1       localhost
+
 ::1             localhost
+
 127.0.1.1       artix-lxqt.localdomain  artix-lxqt
 
 passwd
@@ -102,7 +111,7 @@ passwd yourusername
 
 EDITOR=nano visudo
 # uncomment:
-# %wheel ALL=(ALL:ALL) ALL
+%wheel ALL=(ALL:ALL) ALL
 
 ## 7. Desktop & packages
 
