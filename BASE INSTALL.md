@@ -24,7 +24,9 @@ cfdisk /dev/sda
 Write changes and quit
 
 wipefs --all --force /dev/sda2
+
 dd if=/dev/zero of=/dev/sda2 bs=1M count=2 status=progress conv=fsync
+
 sync
 
 lsblk -f /dev/sda   # confirm sda2 has no filesystem
@@ -32,7 +34,9 @@ lsblk -f /dev/sda   # confirm sda2 has no filesystem
 ## 2. Format
 
 mkfs.fat -F32 /dev/sda1
+
 mkfs.btrfs -f /dev/sda3
+
 mkfs.btrfs -f /dev/sda4
 
 fsck.vfat -a /dev/sda1
@@ -40,9 +44,13 @@ fsck.vfat -a /dev/sda1
 ## 3. Mount
 
 mount /dev/sda3 /mnt
+
 mkdir /mnt/home
+
 mount /dev/sda4 /mnt/home
+
 mkdir -p /mnt/boot
+
 mount /dev/sda1 /mnt/boot
 
 ## 4. Network (ConnMan)
