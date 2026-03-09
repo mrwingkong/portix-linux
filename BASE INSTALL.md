@@ -14,9 +14,13 @@ sync
 cfdisk /dev/sda
 # Inside cfdisk – example layout:
  sda1    512M   EFI System
+ 
  sda2      2M   BIOS boot
+ 
  sda3    128G   Linux filesystem   (root)
+ 
  sda4    rest   Linux filesystem   (home)
+ 
 Write changes and quit
 
 wipefs --all --force /dev/sda2
