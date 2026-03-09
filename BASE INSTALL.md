@@ -180,4 +180,4 @@ NoDisplay=true
 X-GNOME-Autostart-enabled=true
 EOF
 
-# Then log out / reboot → audio should work
+## Then log out / reboot → audio should work
