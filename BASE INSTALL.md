@@ -115,12 +115,7 @@ EDITOR=nano visudo
 
 ## 7. Desktop & packages
 
-pacman -Syu --needed grub efibootmgr lxqt sddm sddm-openrc mesa \
-         networkmanager networkmanager-openrc network-manager-applet \
-         alsa-utils squashfs-tools pacman-contrib sed xz libarchive \
-         libstatgrab pipewire pipewire-alsa pipewire-pulse pipewire-jack \
-         wireplumber wireplumber-openrc pavucontrol-qt xfwm4 picom nemo \
-         btrfs-progs dosfstools exfatprogs ntfs-3g xfsprogs e2fsprogs f2fs-tools
+pacman -Syu --needed grub efibootmgr lxqt sddm sddm-openrc mesa networkmanager networkmanager-openrc network-manager-applet alsa-utils squashfs-tools pacman-contrib sed xz libarchive libstatgrab pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber wireplumber-openrc pavucontrol-qt xfwm4 picom nemo btrfs-progs dosfstools exfatprogs ntfs-3g xfsprogs e2fsprogs f2fs-tools
 
 ## 8. GRUB (UEFI + legacy BIOS)
 
@@ -139,6 +134,9 @@ rc-update add NetworkManager default
 exit
 umount -R /mnt
 reboot
+
+
+====================================================================================
 
 ## Post-install – PipeWire autostart (run as root)
 
