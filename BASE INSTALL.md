@@ -96,9 +96,9 @@ locale-gen
 
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 
-echo "artix-lxqt" > /etc/hostname
+echo "YOURHOSTNAME" > /etc/hostname
 
-echo 'hostname="artix-lxqt"' > /etc/conf.d/hostname
+echo 'hostname="YOURHOSTNAME"' > /etc/conf.d/hostname
 
 nano /etc/hosts
 ## Add:
