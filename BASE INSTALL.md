@@ -87,7 +87,9 @@ ln -sf /usr/share/zoneinfo/UK/London /etc/localtime
 hwclock --systohc
 
 nano /etc/locale.gen
-# uncomment:    en_GB.UTF-8 UTF-8
+# uncomment:
+en_GB.UTF-8 UTF-8
+
 locale-gen
 
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
@@ -127,6 +129,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ## 9. Services
 
 rc-update add sddm default
+
 rc-update add NetworkManager default
 
 ## 10. Finish
