@@ -2,7 +2,7 @@
 
 Clean install with separate BTRFS root + home, hybrid UEFI+BIOS GRUB, PipeWire + WirePlumber, SDDM + LXQt.
 
-**Assumes Artix base or LXQt live ISO (March 2026 workflow)**
+#**Assumes Artix base or LXQt live ISO (March 2026 workflow)**
 
 ## 1. Wipe & Partition
 
@@ -56,7 +56,7 @@ mount /dev/sda1 /mnt/boot
 ## 4. Network (ConnMan)
 
 connmanctl
-# inside connmanctl:
+## inside connmanctl:
 enable wifi
 
 scan wifi
@@ -69,7 +69,7 @@ connect wifi_xxxxxxxxxx     # ← your network name from services
 
 quit
 
-# Optional – time sync
+## Optional – time sync
 rc-service ntpd start
 
 ## 5. Base system
@@ -87,7 +87,7 @@ ln -sf /usr/share/zoneinfo/UK/London /etc/localtime
 hwclock --systohc
 
 nano /etc/locale.gen
-# uncomment:
+## uncomment:
 en_GB.UTF-8 UTF-8
 
 ------------------
@@ -101,7 +101,7 @@ echo "artix-lxqt" > /etc/hostname
 echo 'hostname="artix-lxqt"' > /etc/conf.d/hostname
 
 nano /etc/hosts
-# Add:
+## Add:
 127.0.0.1       localhost
 
 ::1             localhost
@@ -114,7 +114,7 @@ useradd -m -G wheel yourusername
 passwd yourusername
 
 EDITOR=nano visudo
-# uncomment:
+## uncomment:
 %wheel ALL=(ALL:ALL) ALL
 
 -------------------------
