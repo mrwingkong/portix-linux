@@ -48,13 +48,9 @@ fsck.vfat -a /dev/sda1
 ## 3. Mount Partitions
 ```
 mount /dev/sda3 /mnt
-
 mkdir /mnt/home
-
 mount /dev/sda4 /mnt/home
-
 mkdir -p /mnt/boot
-
 mount /dev/sda1 /mnt/boot
 ```
 ## 4. Network configuration (ConnMan)
@@ -64,15 +60,10 @@ connmanctl
 Inside connmanctl:
 ```
 enable wifi
-
 scan wifi
-
 services
-
 agent on
-
 connect wifi_xxxxxxxxxx     # ← your network name from services
-
 quit
 ```
 ## Optional – time sync
