@@ -1,4 +1,4 @@
-# Artix Linux OpenRC with LXQt desktop enviorment
+# Artix Linux OpenRC with LXQt desktop enviorment & xzm module support packages
 
 Clean install from base Artix installation as of March 2026. Separate BTRFS root & home, hybrid UEFI+BIOS GRUB, SDDM login, LXQt desktop enviorment +
 
@@ -25,16 +25,20 @@ cfdisk /dev/sda
  
  sda4    rest   Linux filesystem   (home)
  
-Write changes and quit
-
+Write changes and quit.
+```
 wipefs --all --force /dev/sda2
-
+```
+```
 dd if=/dev/zero of=/dev/sda2 bs=1M count=2 status=progress conv=fsync
-
+```
+```
 sync
-
+```
+```
 lsblk -f /dev/sda   # confirm sda2 has no filesystem
-
+```
+```
 ## 2. Format
 
 mkfs.fat -F32 /dev/sda1
