@@ -28,8 +28,7 @@ mkdir -p ~/modules ~/modules-mounts ~/.local/bin ~/.local/share/applications ~/b
 
 # 2. Add ~/bin to PATH (safe to run multiple times)
 
-echo 'export PATH="$HOME/.local/bin:$HOME/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+echo 'export PATH="$HOME/.local/bin:$HOME/bin:$PATH"' >> ~/.bashrc source ~/.bashrc
 
 _________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
