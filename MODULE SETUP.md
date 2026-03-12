@@ -221,7 +221,7 @@ EOF
 ```bash
 sudo chmod +x /usr/local/bin/pman
 ```
-## 3. MPV pseudo-GUI fix (optional – run after pman install mpv)
+## 3. Optional! - MPV pseudo-GUI fix (run after pman install mpv)
 ```bash
 cat > ~/bin/customize-mpv-gui.sh << 'EOF'
 #!/bin/bash
@@ -256,12 +256,12 @@ killall lxqt-panel 2>/dev/null; lxqt-panel & >/dev/null 2>&1 || true
 
 echo "MPV menu entry updated for pseudo-GUI mode."
 EOF
-
+```
+```bash
 chmod +x ~/bin/customize-mpv-gui.sh
-
-_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-4. Auto-mount all modules at boot (OpenRC)
-
+```
+## 4. Auto-mount all modules at boot (OpenRC)
+```bash
 sudo tee /etc/init.d/module-mounts > /dev/null << 'EOF'
 #!/sbin/openrc-run
 
@@ -303,17 +303,19 @@ stop() {
     eend 0
 }
 EOF
-
+```
+```bash
 sudo chmod +x /etc/init.d/module-mounts
+```
+```bash
 sudo rc-update add module-mounts default
-
+```
 Note: Replace $USER with your actual username (e.g. mrwingkong) or make it dynamic if you want to share the repo.
-_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-
-5. Fix missing icons after adding modules
-
+## 5. Fix missing icons after adding modules
+```bash
 mkdir -p ~/.config/autostart
-
+```
+```bash
 cat > ~/.config/autostart/refresh-icons.desktop << 'EOF'
 [Desktop Entry]
 Type=Application
