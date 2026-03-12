@@ -304,13 +304,13 @@ stop() {
 }
 EOF
 ```
+Note: Replace $USER with your actual username (e.g. mrwingkong) or make it dynamic if you want to share the repo.
 ```bash
 sudo chmod +x /etc/init.d/module-mounts
 ```
 ```bash
 sudo rc-update add module-mounts default
 ```
-Note: Replace $USER with your actual username (e.g. mrwingkong) or make it dynamic if you want to share the repo.
 ## 5. Fix missing icons after adding modules
 ```bash
 mkdir -p ~/.config/autostart
@@ -331,11 +331,12 @@ gtk-update-icon-cache ~/.local/share/icons/hicolor/  2>/dev/null || true
 gtk-update-icon-cache /usr/share/icons/hicolor/     2>/dev/null || true
 pkill lxqt-panel && lxqt-panel & disown
 EOF
-
-chmod +x ~/.config/autostart/refresh-icons.sh
-
+```
 (Again — replace $USER or hardcode your username.)
-_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+```bash
+chmod +x ~/.config/autostart/refresh-icons.sh
+```
+___________________________________________________________________________________
 
 Usage Examples
 
