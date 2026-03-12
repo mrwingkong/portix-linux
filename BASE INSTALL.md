@@ -16,13 +16,13 @@ cfdisk /dev/sda
 ```
 cfdisk – example:
 
-sda1    512M   EFI System
+sda1 - 512M - EFI System
 
-sda2      2M   BIOS boot
+sda2 - 2M - BIOS boot
 
-sda3    128G   Linux filesystem   (root)
+sda3 - 128G - Linux filesystem   (root)
 
-sda4    rest   Linux filesystem   (home)
+sda4 - rest - Linux filesystem   (home)
  
 Write changes and quit
 ```
