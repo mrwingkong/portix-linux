@@ -332,22 +332,16 @@ chmod +x ~/.config/autostart/refresh-icons.sh
 ```
 ___________________________________________________________________________________
 ___________________________________________________________________________________
-Usage Examples
+# Usage Examples:
 
 pman install mpv
-customize-mpv-gui.sh           # optional – improves menu behavior
+customize-mpv-gui.sh           # optional – loading of blank gui window
 
-pman install firefox
-pman install vlc
-
-pman remove vlc
+pman remove mpv
 
 
 
-
-
-
-# If something fails:
+## If something fails:
 sudo rc-service module-mounts status
 dmesg | grep -i mount
 
