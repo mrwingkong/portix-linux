@@ -36,11 +36,12 @@ echo 'export PATH="$HOME/.local/bin:$HOME/bin:$PATH"' >> ~/.bashrc source ~/.bas
 ## Core Tools
 ## 1. Module Builder – build-xzm.sh
 This script downloads a package, extracts it, strips documentation/locales, and builds a compressed .xzm module.
+
 Module Builder Script — ~/bin/build-xzm.sh
 
 ```bash
 nano ~/bin/build-xzm.sh
-
+```
 ```bash
 cat > ~/bin/build-xzm.sh << 'EOF'
 #!/bin/bash
