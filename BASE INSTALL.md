@@ -12,6 +12,7 @@ dd if=/dev/zero of=/dev/sda bs=1M count=10 status=progress conv=fsync
 ```
 sync
 ```
+partition type gpt
 ```
 cfdisk /dev/sda
 ```
