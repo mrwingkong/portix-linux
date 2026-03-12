@@ -12,7 +12,6 @@ sync
 ````
 ````
 cfdisk /dev/sda
-```
 ````
 Partition type (gpt)
 
