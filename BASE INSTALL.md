@@ -114,40 +114,42 @@ echo "YOURHOSTNAME" > /etc/hostname
 
 echo 'hostname="YOURHOSTNAME"" > /etc/conf.d/hostname
 ```
+replace "YOURHOSTNAME" & input password
+
 ## Add:
 ```
 nano /etc/hosts
 ```
-## Example:
-127.0.0.1   localhost
-
-::1         localhost
-
 127.0.1.1   artixhost.localdomain artixhost
 ```
+```
+## Add a system password (input twice)
 passwd
-
+## Add User & password
 useradd -m -G wheel yourusername
+```
 passwd yourusername
-
+```
+replace "yourusername" with own & input password
+```
 EDITOR=nano visudo
+```
 ## uncomment:
 %wheel ALL=(ALL:ALL) ALL
 
--------------------------
 ## 7. Desktop & packages
-
+```
 pacman -Syu --needed grub efibootmgr lxqt sddm sddm-openrc mesa networkmanager networkmanager-openrc network-manager-applet alsa-utils squashfs-tools pacman-contrib sed xz libarchive libstatgrab pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber wireplumber-openrc pavucontrol-qt xfwm4 picom nemo btrfs-progs dosfstools exfatprogs ntfs-3g xfsprogs e2fsprogs f2fs-tools
-
+```
 ## 8. GRUB (UEFI + legacy BIOS)
-
+```
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Artix --removable
 grub-install --target=i386-pc --recheck /dev/sda
 
 grub-mkconfig -o /boot/grub/grub.cfg
-
+```
 ## 9. Services
-
+```
 rc-update add sddm default
 
 rc-update add NetworkManager default
