@@ -92,8 +92,10 @@ EOF
 chmod +x ~/bin/build-xzm.sh
 ```
 ## 2. Modular Package Manager Wrapper – pman
-
 Installs/removes modules + creates menu entries + wrappers.
+```bash
+sudo nano /etc/init.d/module-mounts
+```
 ```bash
 sudo tee /usr/local/bin/pman > /dev/null << 'EOF'
 #!/bin/bash
