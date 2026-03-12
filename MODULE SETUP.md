@@ -86,7 +86,7 @@ sudo pacman -Scc --noconfirm >/dev/null 2>&1 || true
 echo "Done."
 ```
 ```bash
-chmod +x ~/bin/build-xzm.sh
+sudo chmod +x ~/bin/build-xzm.sh
 ```
 ## 2. Modular Package Manager Wrapper – pman
 Installs/removes modules + creates menu entries + wrappers.
@@ -215,7 +215,7 @@ EOD
 esac
 ```
 ```bash
-chmod +x /usr/local/bin/pman
+sudo chmod +x /usr/local/bin/pman
 ```
 ## 3. Optional! - MPV pseudo-GUI fix (run after pman install mpv)
 ```bash
@@ -255,7 +255,7 @@ killall lxqt-panel 2>/dev/null; lxqt-panel & >/dev/null 2>&1 || true
 echo "MPV menu entry updated for pseudo-GUI mode."
 ```
 ```bash
-chmod +x ~/bin/customize-mpv-gui.sh
+sudo chmod +x ~/bin/mpv-gui.sh
 ```
 ## 4. Auto-mount all modules at boot (OpenRC)
 ```bash
@@ -304,7 +304,7 @@ stop() {
 ```
 Note: Replace $USER with your actual username (e.g. mrwingkong) or make it dynamic if you want to share the repo.
 ```bash
-chmod +x /etc/init.d/module-mounts
+sudo chmod +x /etc/init.d/module-mounts
 ```
 ```bash
 sudo rc-update add module-mounts default
@@ -328,7 +328,7 @@ pkill lxqt-panel && lxqt-panel & disown
 ```
 (Again — replace $USER or hardcode your username.)
 ```bash
-chmod +x ~/.config/autostart/refresh-icons.sh
+sudo chmod +x ~/.config/autostart/refresh-icons.sh
 ```
 ___________________________________________________________________________________
 ___________________________________________________________________________________
