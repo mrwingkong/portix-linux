@@ -34,7 +34,7 @@ This script downloads a package, extracts it, strips documentation/locales, and 
 
 Module Builder Script — ~/bin/build-xzm.sh
 ```bash
-nano ~/bin/build-xzm.sh
+sudo nano ~/bin/build-xzm.sh
 ```
 ```bash
 cat > ~/bin/build-xzm.sh << 'EOF'
@@ -220,11 +220,11 @@ esac
 EOF
 ```
 ```bash
-sudo chmod +x /usr/local/bin/pman
+chmod +x /usr/local/bin/pman
 ```
 ## 3. Optional! - MPV pseudo-GUI fix (run after pman install mpv)
 ```bash
-nano ~/bin/mpv-gui.sh
+sudo nano ~/bin/mpv-gui.sh
 ```
 ```bash
 #!/bin/bash
@@ -309,7 +309,7 @@ stop() {
 ```
 Note: Replace $USER with your actual username (e.g. mrwingkong) or make it dynamic if you want to share the repo.
 ```bash
-sudo chmod +x /etc/init.d/module-mounts
+chmod +x /etc/init.d/module-mounts
 ```
 ```bash
 sudo rc-update add module-mounts default
