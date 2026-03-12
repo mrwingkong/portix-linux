@@ -120,11 +120,11 @@ useradd -m -G wheel yourusername
 passwd yourusername
 ```
 replace "yourusername"
+## uncomment:
+%wheel ALL=(ALL:ALL) ALL
 ```
 EDITOR=nano visudo
 ```
-## uncomment:
-%wheel ALL=(ALL:ALL) ALL
 ## 7. Install Desktop, tools, packages
 ```
 pacman -Syu --needed grub efibootmgr lxqt sddm sddm-openrc mesa networkmanager networkmanager-openrc network-manager-applet alsa-utils squashfs-tools pacman-contrib sed xz libarchive libstatgrab pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber wireplumber-openrc pavucontrol-qt xfwm4 picom nemo btrfs-progs dosfstools exfatprogs ntfs-3g xfsprogs e2fsprogs f2fs-tools
