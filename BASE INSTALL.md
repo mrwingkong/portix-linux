@@ -36,6 +36,10 @@ lsblk -f /dev/sda   # confirm sda2 has no filesystem
 mkfs.fat -F32 /dev/sda1
 mkfs.btrfs -f /dev/sda3
 mkfs.btrfs -f /dev/sda4
+```
+Fix "Not automatically fixing this" label on EFI partition (clears dirty bit and repairs filesystem cleanly)
+auto-repair; if "device busy", umount first then remount after
+```
 fsck.vfat -a /dev/sda1
 ```
 ## 3. Mount Partitions
@@ -65,7 +69,7 @@ rc-service ntpd start
 basestrap /mnt base base-devel openrc elogind-openrc linux linux-headers linux-firmware intel-ucode sof-firmware nano
 ```
 ```
-fstabgen -U /mnt > /mnt/etc/fstab
+bash -c 'fstabgen -U /mnt > /mnt/etc/fstab'
 ```
 ## 6. Chroot system settings
 ```
@@ -80,7 +84,7 @@ en_GB.UTF-8 UTF-8
 locale-gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "YOURHOSTNAME" > /etc/hostname
-echo 'hostname="YOURHOSTNAME"" > /etc/conf.d/hostname
+echo "hostname=\"YOURHOSTNAME\"" > /etc/conf.d/hostname
 ```
 replace "YOURHOSTNAME"
 
@@ -122,7 +126,9 @@ rc-update add NetworkManager default
 ## 10. Finish
 
 exit
+
 umount -R /mnt
+
 reboot
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
