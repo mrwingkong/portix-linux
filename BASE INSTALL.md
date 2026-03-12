@@ -118,13 +118,11 @@ echo 'hostname="YOURHOSTNAME"" > /etc/conf.d/hostname
 ```
 nano /etc/hosts
 ```
-Example:
+## Example:
 127.0.0.1   localhost
-```
-```
+
 ::1         localhost
-```
-```
+
 127.0.1.1   artixhost.localdomain artixhost
 ```
 passwd
