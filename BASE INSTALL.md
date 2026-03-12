@@ -1,17 +1,20 @@
-# Artix Linux OpenRC + LXQt Installation Guide
+# Artix Linux OpenRC with LXQt desktop enviorment
 
-Clean install with separate BTRFS root + home, hybrid UEFI+BIOS GRUB, PipeWire + WirePlumber, SDDM + LXQt.
-
-#**Assumes Artix base or LXQt live ISO (March 2026 workflow)**
+Clean install from base Artix installation as of March 2026. Separate BTRFS root & home, hybrid UEFI+BIOS GRUB, SDDM login, LXQt desktop enviorment +
 
 ## 1. Wipe & Partition
-
+```
 wipefs -a /dev/sda
-
+```
+```
 dd if=/dev/zero of=/dev/sda bs=1M count=10 status=progress conv=fsync
+```
+```
 sync
-
+```
+```
 cfdisk /dev/sda
+```
 ## Inside cfdisk – example layout:
  sda1    512M   EFI System
  
@@ -98,7 +101,7 @@ echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 
 echo "YOURHOSTNAME" > /etc/hostname
 
-echo 'hostname="YOURHOSTNAME"' > /etc/conf.d/hostname
+echo 'hostname="YOURHOSTNAME"" > /etc/conf.d/hostname
 
 nano /etc/hosts
 ## Add:
