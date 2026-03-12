@@ -321,7 +321,7 @@ NoDisplay=true
 Exec=/home/$USER/.config/autostart/refresh-icons.sh
 
 #!/bin/bash
-sleep 10
+sleep 8
 gtk-update-icon-cache ~/.local/share/icons/hicolor/  2>/dev/null || true
 gtk-update-icon-cache /usr/share/icons/hicolor/     2>/dev/null || true
 pkill lxqt-panel && lxqt-panel & disown
