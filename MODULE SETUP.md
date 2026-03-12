@@ -22,22 +22,17 @@ Most commands will **fail gracefully** or show warnings if dependencies are miss
 ## Quick Setup – One-time Preparation
 
 1. Create needed directories
-
 ```bash
 mkdir -p ~/modules ~/modules-mounts ~/.local/bin ~/.local/share/applications ~/bin
-
 ````
 2. Add ~/bin to PATH (safe to run multiple times)
-
 ```bash
 echo 'export PATH="$HOME/.local/bin:$HOME/bin:$PATH"' >> ~/.bashrc source ~/.bashrc
-
 ````
 ## 1. Module Builder – build-xzm.sh
 This script downloads a package, extracts it, strips documentation/locales, and builds a compressed .xzm module.
 
 Module Builder Script — ~/bin/build-xzm.sh
-
 ```bash
 nano ~/bin/build-xzm.sh
 ```
@@ -99,7 +94,6 @@ chmod +x ~/bin/build-xzm.sh
 ## 2. Modular Package Manager Wrapper – pman
 
 Installs/removes modules + creates menu entries + wrappers.
-
 ```bash
 sudo tee /usr/local/bin/pman > /dev/null << 'EOF'
 #!/bin/bash
@@ -223,11 +217,12 @@ EOD
 esac
 EOF
 
+```
+```bash
 sudo chmod +x /usr/local/bin/pman
-
-_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-3. MPV pseudo-GUI fix (optional – run after pman install mpv)
-
+```
+## 3. MPV pseudo-GUI fix (optional – run after pman install mpv)
+```bash
 cat > ~/bin/customize-mpv-gui.sh << 'EOF'
 #!/bin/bash
 # Enhances mpv.desktop to always use pseudo-GUI when launched from menu
