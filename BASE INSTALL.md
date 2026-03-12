@@ -70,22 +70,14 @@ fstabgen -U /mnt > /mnt/etc/fstab
 ## 6. Chroot system settings
 ```
 artix-chroot /mnt
-```
-```
 ln -sf /usr/share/zoneinfo/UK/London /etc/localtime
-```
-```
 hwclock --systohc
-```
-```
 nano /etc/locale.gen
 ```
 Uncomment: required language / country
 en_GB.UTF-8 UTF-8
 ```
 locale-gen
-```
-```
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "YOURHOSTNAME" > /etc/hostname
 echo 'hostname="YOURHOSTNAME"" > /etc/conf.d/hostname
