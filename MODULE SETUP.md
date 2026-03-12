@@ -218,14 +218,15 @@ EOD
     ;;
 esac
 EOF
-
 ```
 ```bash
 sudo chmod +x /usr/local/bin/pman
 ```
 ## 3. Optional! - MPV pseudo-GUI fix (run after pman install mpv)
 ```bash
-cat > ~/bin/customize-mpv-gui.sh << 'EOF'
+nano ~/bin/mpv-gui.sh
+```
+```bash
 #!/bin/bash
 # Enhances mpv.desktop to always use pseudo-GUI when launched from menu
 
@@ -257,14 +258,15 @@ update-desktop-database ~/.local/share/applications/ 2>/dev/null || true
 killall lxqt-panel 2>/dev/null; lxqt-panel & >/dev/null 2>&1 || true
 
 echo "MPV menu entry updated for pseudo-GUI mode."
-EOF
 ```
 ```bash
 chmod +x ~/bin/customize-mpv-gui.sh
 ```
 ## 4. Auto-mount all modules at boot (OpenRC)
 ```bash
-sudo tee /etc/init.d/module-mounts > /dev/null << 'EOF'
+sudo nano /etc/init.d/module-mounts
+```
+```bash
 #!/sbin/openrc-run
 
 description="Auto-mount all 00-*.xzm modules at boot (silent)"
@@ -304,7 +306,6 @@ stop() {
     done
     eend 0
 }
-EOF
 ```
 Note: Replace $USER with your actual username (e.g. mrwingkong) or make it dynamic if you want to share the repo.
 ```bash
