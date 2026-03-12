@@ -21,13 +21,14 @@ Most commands will **fail gracefully** or show warnings if dependencies are miss
 
 ## Quick Setup – One-time Preparation
 
-```bash
 # 1. Create needed directories
 
+```bash
 mkdir -p ~/modules ~/modules-mounts ~/.local/bin ~/.local/share/applications ~/bin
 
 # 2. Add ~/bin to PATH (safe to run multiple times)
 
+```bash
 echo 'export PATH="$HOME/.local/bin:$HOME/bin:$PATH"' >> ~/.bashrc source ~/.bashrc
 
 _________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
