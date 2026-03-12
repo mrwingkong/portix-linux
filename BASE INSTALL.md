@@ -10,15 +10,14 @@ wipefs -a /dev/sda
 ```
 ```
 dd if=/dev/zero of=/dev/sda bs=1M count=10 status=progress conv=fsync
-```
-```
 sync
 ```
 Partition type (gpt)
 ```
 cfdisk /dev/sda
 ```
-## Inside cfdisk – example layout:
+Inside cfdisk – example layout:
+
 sda1    512M   EFI System
 sda2      2M   BIOS boot
 sda3    128G   Linux filesystem   (root)
@@ -136,9 +135,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ## 9. Services
 ```
 rc-update add sddm default
-
 rc-update add NetworkManager default
-
+```
 ## 10. Finish
 
 exit
