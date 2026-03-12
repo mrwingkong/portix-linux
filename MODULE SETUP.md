@@ -33,8 +33,8 @@ mkdir -p ~/modules ~/modules-mounts ~/.local/bin ~/.local/share/applications ~/b
 echo 'export PATH="$HOME/.local/bin:$HOME/bin:$PATH"' >> ~/.bashrc source ~/.bashrc
 
 ````
-# Core Tools
-# 1. Module Builder – build-xzm.sh
+## Core Tools
+## 1. Module Builder – build-xzm.sh
 This script downloads a package, extracts it, strips documentation/locales, and builds a compressed .xzm module.
 
 Create the script
