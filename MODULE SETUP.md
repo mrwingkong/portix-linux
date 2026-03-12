@@ -1,16 +1,16 @@
-# Modular .xzm Packages on Arch Linux (or Arch-based systems)
+# Modular .xzm Packages on Artix Linux & (Arch-based systems)
 
-**Goal**: Turn Arch packages into self-contained, squashfs-based **.xzm** modules (inspired by Porteus / Slax style modularity).  
+**Goal**: Turn Artix packages into self-contained, squashfs-based **.xzm** modules (inspired by Porteus / Slax style modularity).  
 
 Install apps into read-only loop-mounted modules, keep the base system clean, easily add/remove apps, and make selected programs (like `mpv`) appear nicely in the menu with pseudo-GUI support.
 
-**Target audience**: Users of minimal Arch/LXQt setups who want portable-ish / modular applications without full containerization.
+**Target audience**: Users of minimal Artix/LXQt setups who want portable-ish / modular applications with hybrid containerization.
 
-**Current status**: Proof-of-concept / personal workflow — not production-grade yet.
+**Current status**: Proof-of-concept / personal workflow — 90% complete.
 
 ## Requirements
 
-- Arch Linux or Arch-based distro with **pacman**
+- Artix Linux or Arch-based distro with **pacman**
 - `squashfs-tools` (provides `mksquashfs`)
 - `sudo` privileges
 - Working `pacman` & internet
