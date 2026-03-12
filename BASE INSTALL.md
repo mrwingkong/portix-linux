@@ -1,6 +1,8 @@
 # Artix Linux OpenRC with LXQt desktop enviorment & xzm module support packages
 
-Clean install from base Artix installation as of March 2026. Separate BTRFS root & home, hybrid UEFI+BIOS GRUB, SDDM login, LXQt desktop enviorment +
+(Minimal base Artix install iso as of March 2026)
+
+Separate BTRFS root & home, hybrid UEFI+BIOS GRUB, SDDM login, LXQt desktop enviorment + additional tools & packages
 
 ## 1. Wipe & Partition
 ```
@@ -12,7 +14,7 @@ dd if=/dev/zero of=/dev/sda bs=1M count=10 status=progress conv=fsync
 ```
 sync
 ```
-partition type gpt
+Partition type (gpt)
 ```
 cfdisk /dev/sda
 ```
@@ -25,7 +27,7 @@ cfdisk /dev/sda
  
  sda4    rest   Linux filesystem   (home)
  
-Write changes and quit.
+Write changes and quit
 ```
 wipefs --all --force /dev/sda2
 ```
@@ -46,7 +48,7 @@ mkfs.btrfs -f /dev/sda4
 
 fsck.vfat -a /dev/sda1
 ```
-## 3. Mount
+## 3. Mount Partitions
 ```
 mount /dev/sda3 /mnt
 
@@ -61,7 +63,9 @@ mount /dev/sda1 /mnt/boot
 ## 4. Network configuration (ConnMan)
 ```
 connmanctl
-## inside connmanctl:
+```
+Inside connmanctl:
+```
 enable wifi
 
 scan wifi
