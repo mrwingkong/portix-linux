@@ -16,7 +16,7 @@ Partition type (gpt)
 ```
 cfdisk /dev/sda
 ```
-Inside cfdisk – example layout:
+cfdisk – example:
 
 sda1    512M   EFI System
 
