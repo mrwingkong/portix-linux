@@ -113,15 +113,16 @@ echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "YOURHOSTNAME" > /etc/hostname
 
 echo 'hostname="YOURHOSTNAME"" > /etc/conf.d/hostname
-
+```
+## Add (127.0.1.1       artixhost.localdomain artixhost)
+```
 nano /etc/hosts
-## Add:
-127.0.0.1       localhost
-
-::1             localhost
-
-127.0.1.1       artix-lxqt.localdomain  artix-lxqt
-
+```
+Example:
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   artixhost.localdomain artixhost
+```
 passwd
 
 useradd -m -G wheel yourusername
