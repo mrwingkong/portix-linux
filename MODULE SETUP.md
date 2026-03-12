@@ -37,7 +37,6 @@ Module Builder Script — ~/bin/build-xzm.sh
 sudo nano ~/bin/build-xzm.sh
 ```
 ```bash
-cat > ~/bin/build-xzm.sh << 'EOF'
 #!/bin/bash
 set -euo pipefail
 
@@ -85,8 +84,6 @@ rm -rf "$MODDIR" "$CACHEDIR"
 sudo pacman -Scc --noconfirm >/dev/null 2>&1 || true
 
 echo "Done."
-EOF
-
 ```
 ```bash
 chmod +x ~/bin/build-xzm.sh
@@ -97,7 +94,6 @@ Installs/removes modules + creates menu entries + wrappers.
 sudo nano /etc/init.d/module-mounts
 ```
 ```bash
-sudo tee /usr/local/bin/pman > /dev/null << 'EOF'
 #!/bin/bash
 set -euo pipefail
 
@@ -217,7 +213,6 @@ EOD
     echo
     ;;
 esac
-EOF
 ```
 ```bash
 chmod +x /usr/local/bin/pman
@@ -316,31 +311,27 @@ sudo rc-update add module-mounts default
 ```
 ## 5. Fix missing icons after adding modules
 ```bash
-mkdir -p ~/.config/autostart
+nano ~/.config/autostart/refresh-icons.sh
 ```
 ```bash
-cat > ~/.config/autostart/refresh-icons.desktop << 'EOF'
 [Desktop Entry]
 Type=Application
 Name=Refresh Icons & Panel
 NoDisplay=true
 Exec=/home/$USER/.config/autostart/refresh-icons.sh
-EOF
 
-cat > ~/.config/autostart/refresh-icons.sh << 'EOF'
 #!/bin/bash
 sleep 10
 gtk-update-icon-cache ~/.local/share/icons/hicolor/  2>/dev/null || true
 gtk-update-icon-cache /usr/share/icons/hicolor/     2>/dev/null || true
 pkill lxqt-panel && lxqt-panel & disown
-EOF
 ```
 (Again — replace $USER or hardcode your username.)
 ```bash
 chmod +x ~/.config/autostart/refresh-icons.sh
 ```
 ___________________________________________________________________________________
-
+___________________________________________________________________________________
 Usage Examples
 
 pman install mpv
