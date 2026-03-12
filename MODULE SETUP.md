@@ -91,7 +91,7 @@ chmod +x ~/bin/build-xzm.sh
 ## 2. Modular Package Manager Wrapper – pman
 Installs/removes modules + creates menu entries + wrappers.
 ```bash
-sudo nano /etc/init.d/module-mounts
+sudo nano /usr/local/bin/pman
 ```
 ```bash
 #!/bin/bash
