@@ -114,13 +114,17 @@ echo "YOURHOSTNAME" > /etc/hostname
 
 echo 'hostname="YOURHOSTNAME"" > /etc/conf.d/hostname
 ```
-## Add (127.0.1.1       artixhost.localdomain artixhost)
+## Add:
 ```
 nano /etc/hosts
 ```
 Example:
 127.0.0.1   localhost
+```
+```
 ::1         localhost
+```
+```
 127.0.1.1   artixhost.localdomain artixhost
 ```
 passwd
