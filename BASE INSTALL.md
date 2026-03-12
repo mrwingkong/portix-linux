@@ -77,32 +77,37 @@ agent on
 connect wifi_xxxxxxxxxx     # ← your network name from services
 
 quit
-
+```
 ## Optional – time sync
+```
 rc-service ntpd start
-
-## 5. Base system
-
+```
+## 5. Base system setup
+```
 basestrap /mnt base base-devel openrc elogind-openrc linux linux-headers linux-firmware intel-ucode sof-firmware nano
-
+```
+```
 fstabgen -U /mnt > /mnt/etc/fstab
-
-## 6. Chroot & basic setup
-
+```
+## 6. Chroot system settings
+```
 artix-chroot /mnt
-
+```
+```
 ln -sf /usr/share/zoneinfo/UK/London /etc/localtime
-
+```
+```
 hwclock --systohc
-
+```
+```
 nano /etc/locale.gen
-## uncomment:
+```
+Uncomment:
 en_GB.UTF-8 UTF-8
-
-------------------
-
+```
 locale-gen
-
+```
+```
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 
 echo "YOURHOSTNAME" > /etc/hostname
