@@ -335,14 +335,17 @@ ________________________________________________________________________________
 # Usage Examples:
 
 pman install mpv
-customize-mpv-gui.sh           # optional – loading of blank gui window
+
+Optional script - mpv-gui.sh - (loading of blank gui window)
 
 pman remove mpv
 
 
 
 ## If something fails:
+
 sudo rc-service module-mounts status
+
 dmesg | grep -i mount
 
 Done!
