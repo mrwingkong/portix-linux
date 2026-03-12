@@ -1,12 +1,12 @@
 # Modular .xzm Packages on Artix Linux & (Arch-based systems)
 
-**Goal**: Turn Artix packages into self-contained, squashfs-based **.xzm** modules (inspired by Porteus / Slax style modularity).  
+**Goal**: Turn Artix packages into self-contained, squashfs-based **.xzm** modules keeping base systemw updated (inspired by Porteus / Slax style modularity).  
 
 Install apps into read-only loop-mounted modules, keep the base system clean, easily add/remove apps, and make selected programs (like `mpv`) appear nicely in the menu with pseudo-GUI support.
 
-**Target audience**: Users of minimal Artix/LXQt setups who want portable-ish / modular applications with hybrid containerization.
+**Target audience**: Users of minimal Artix/LXQt setups who want portable-ish / modular application containerization.
 
-**Current status**: Proof-of-concept / personal workflow — 90% complete.
+**Current status**: Proof-of-concept / personal workflow — 90% complete - current state - hybrid module containerization.
 
 ## Requirements
 
