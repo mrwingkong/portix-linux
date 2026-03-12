@@ -121,7 +121,6 @@ replace "YOURHOSTNAME" & input password
 nano /etc/hosts
 ```
 127.0.1.1   artixhost.localdomain artixhost
-
 ## Add a system password (input twice)
 ```
 passwd
