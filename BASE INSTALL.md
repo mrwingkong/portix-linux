@@ -7,8 +7,6 @@ Separate BTRFS root & home, hybrid UEFI+BIOS GRUB, SDDM login, LXQt desktop envi
 ## 1. Wipe & Partition
 ```
 wipefs -a /dev/sda
-```
-```
 dd if=/dev/zero of=/dev/sda bs=1M count=10 status=progress conv=fsync
 sync
 ```
@@ -29,12 +27,8 @@ sda4    rest   Linux filesystem   (home)
 Write changes and quit
 ```
 wipefs --all --force /dev/sda2
-```
-```
 dd if=/dev/zero of=/dev/sda2 bs=1M count=2 status=progress conv=fsync
 sync
-```
-```
 lsblk -f /dev/sda   # confirm sda2 has no filesystem
 ```
 ## 2. Format Partitions
@@ -55,9 +49,6 @@ mount /dev/sda1 /mnt/boot
 ## 4. Network configuration (ConnMan)
 ```
 connmanctl
-```
-Inside connmanctl:
-```
 enable wifi
 scan wifi
 services
@@ -96,9 +87,7 @@ locale-gen
 ```
 ```
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
-
 echo "YOURHOSTNAME" > /etc/hostname
-
 echo 'hostname="YOURHOSTNAME"" > /etc/conf.d/hostname
 ```
 replace "YOURHOSTNAME"
@@ -115,7 +104,6 @@ passwd
 ## Add User & password
 ```
 useradd -m -G wheel yourusername
-
 passwd yourusername
 ```
 replace "yourusername"
@@ -132,7 +120,6 @@ pacman -Syu --needed grub efibootmgr lxqt sddm sddm-openrc mesa networkmanager n
 ```
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Artix --removable
 grub-install --target=i386-pc --recheck /dev/sda
-
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 ## 9. Services
