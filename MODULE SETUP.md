@@ -31,9 +31,10 @@ source ~/.bashrc
 ````
 ## 1. Module Builder – build-xzm.sh
 Module Builder Script — ~/bin/build-xzm.sh
-```bash
+```
 nano ~/bin/build-xzm.sh
-```bash
+```
+```
 #!/bin/bash
 PKG="$1"
 if [ -z "$PKG" ]; then
@@ -65,7 +66,8 @@ else
 fi
 rm -rf "$MODDIR" "$CACHEDIR"
 sudo pacman -Scc --noconfirm >/dev/null 2>&1
-```bash
+```
+```
 chmod +x ~/bin/build-xzm.sh
 ```
 ## 2. basic wrapper for any app, extracts .desktop info if available, copies icons, etc.
