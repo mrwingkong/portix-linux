@@ -238,6 +238,7 @@ pkill lxqt-panel && lxqt-panel & disown
 chmod +x ~/.config/autostart/refresh-icons.sh
 ```
 (Again — replace $USER or hardcode your username.)
+
 ___________________________________________________________________________________
 ___________________________________________________________________________________
 
