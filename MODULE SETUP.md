@@ -2,11 +2,11 @@
 
 **Goal**: Turn Artix packages into self-contained, squashfs-based **.xzm** modules keeping base system updated (inspired by Porteus / Slax style modularity).  
 
-Install apps into read-only loop-mounted modules, keep the base system clean, easily add/remove apps, and make selected programs (like `mpv`) appear nicely in the menu with pseudo-GUI support.
+Install apps into read-only loop-mounted modules, keep the base system clean, easily add/remove apps, and make programs appear nicely in the menu.
 
-**Target audience**: Users of minimal Artix/LXQT setups who want portable-ish / modular application containerization.
+**Target audience**: Users of minimal Artix/LXQT setups who want portable-ish / modular applications.
 
-**Current status**: Proof-of-concept / personal workflow — 90% complete - current state - hybrid module containerization.
+**Current status**: Proof-of-concept / personal workflow — 90% complete. Hybrid module containerization.
 
 ## Requirements
 
