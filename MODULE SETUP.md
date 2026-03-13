@@ -4,17 +4,16 @@
 
 Install apps into read-only loop-mounted modules, keep the base system clean, easily add/remove apps, and make selected programs (like `mpv`) appear nicely in the menu with pseudo-GUI support.
 
-**Target audience**: Users of minimal Artix/LXQt setups who want portable-ish / modular application containerization.
+**Target audience**: Users of minimal Artix/LXQT setups who want portable-ish / modular application containerization.
 
 **Current status**: Proof-of-concept / personal workflow — 90% complete - current state - hybrid module containerization.
 
 ## Requirements
 
-- Artix Linux or Arch-based distro with **pacman**
-- `squashfs-tools` (provides `mksquashfs`)
+- Artix Linux or Arch-based distro with **working internet & pacman**
+- `--needed squashfs-tools libarchive gtk-update-icon-cache`
 - `sudo` privileges
-- Working `pacman` & internet
-- Desktop environment using **LXQt** (panel restart commands are LXQt-specific)
+- Desktop environment using **LXQT** (panel restart commands are LXQt-specific)
 - OpenRC init system (for the boot auto-mount service)
 
 Most commands will **fail gracefully** or show warnings if dependencies are missing.
