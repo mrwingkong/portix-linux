@@ -266,7 +266,7 @@ MPV desktop shortcut loading blank gui that stays open when no video played
 ```bash
 nano ~/.config/mpv/mpv.conf
 ```
-add:
+replace / add:
 ```bash
 force-window     = yes
 idle             = yes
