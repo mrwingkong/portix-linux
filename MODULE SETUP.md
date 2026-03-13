@@ -261,8 +261,8 @@ dmesg | grep -i mount
 Done!
 
 ---------------------------------------------------------------------------------
-Some common fixes, hacks to improve specific applications:
-## MPV desktop shortcut loading blank gui that stays open when no video played
+## Some common fixes, hacks to improve specific applications:
+MPV desktop shortcut loading blank gui that stays open when no video played
 ```bash
 nano ~/.config/mpv/mpv.conf
 ```
