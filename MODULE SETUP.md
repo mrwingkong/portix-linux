@@ -70,10 +70,11 @@ sudo pacman -Scc --noconfirm >/dev/null 2>&1
 ```
 chmod +x ~/bin/build-xzm.sh
 ```
-## 2. basic wrapper for any app, extracts .desktop info if available, copies icons, etc.
+## 2. Basic wrapper for any app, extracts .desktop info if available, copies icons, etc.
 ```bash
 sudo nano /usr/local/bin/pman
-```bash
+```
+```
 #!/bin/bash
 case "$1" in
   install)
@@ -170,7 +171,8 @@ EOF
     echo " pman remove <app-name>"
     ;;
 esac
-```bash
+```
+```
 sudo chmod +x /usr/local/bin/pman
 ```
 ## 3. Auto-mount all modules at boot (OpenRC)
