@@ -259,3 +259,18 @@ sudo rc-service module-mounts status
 dmesg | grep -i mount
 
 Done!
+
+---------------------------------------------------------------------------------
+Some common fixes, hacks to improve specific applications:
+## MPV desktop shortcut loading blank gui that stays open when no video played
+```bash
+nano ~/.config/mpv/mpv.conf
+```
+add:
+```bash
+force-window     = yes
+idle             = yes
+terminal         = no
+player-operation-mode = pseudo-gui     # ← this can help in some edge cases
+keep-open        = yes                 # redundant with idle=yes but explicit
+
