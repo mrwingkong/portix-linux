@@ -262,7 +262,7 @@ Done!
 
 ---------------------------------------------------------------------------------
 ## Some common fixes, hacks to improve specific applications:
-MPV desktop shortcut loading blank gui that stays open when no video played
+MPV desktop shortcut to open a blank gui and stay open
 ```bash
 nano ~/.config/mpv/mpv.conf
 ```
