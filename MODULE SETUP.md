@@ -220,7 +220,8 @@ Note: Replace $USER with your actual username (e.g. mrwingkong) or make it dynam
 ```bash
 sudo chmod +x /etc/init.d/module-mounts
 ```
-```bash
+## add to default runlevel
+```
 sudo rc-update add module-mounts default
 ```
 ## 4. Icon cache refresh at login (fix missing icons after module add)
