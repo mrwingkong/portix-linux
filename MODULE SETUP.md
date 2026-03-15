@@ -226,6 +226,7 @@ sudo rc-update add module-mounts default
 ```
 ## 4. Icon cache refresh at login (fix missing icons after module add)
 ```bash
+mkdir -p ~/.config/autostart
 nano ~/.config/autostart/refresh-icons.sh
 ```
 ```bash
