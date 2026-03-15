@@ -275,4 +275,26 @@ idle             = yes
 terminal         = no
 player-operation-mode = pseudo-gui     # ← this can help in some edge cases
 keep-open        = yes                 # redundant with idle=yes but explicit
+```
+
+```bash
+nano ~/.local/bin/gparted
+
+#!/bin/bash
+MOD="/home/mrwingkong/modules-mounts/gparted"  # ← fixed, no $HOME
+export PATH="$MOD/bin:$MOD/sbin:$MOD/usr/bin:$MOD/usr/sbin:$PATH"
+export LD_LIBRARY_PATH="$MOD/lib:$MOD/lib64:$MOD/usr/lib:$MOD/usr/lib64:$LD_LIBRARY_PATH"
+exec "$MOD/usr/lib/gparted/gpartedbin" "$@"
+
+chmod +x ~/.local/bin/gparted
+
+sudo pacman -S lxqt-sudo
+
+
+nano ~/.local/share/applications/gparted.desktop
+
+Exec=lxqt-sudo /home/mrwingkong/.local/bin/<app> %F
+
+Test:
+lxqt-sudo /home/mrwingkong/.local/bin/<app>
 
