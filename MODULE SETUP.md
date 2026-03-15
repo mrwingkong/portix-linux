@@ -236,7 +236,9 @@ gtk-update-icon-cache ~/.local/share/icons/hicolor/ 2>/dev/null || true
 gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true
 pkill lxqt-panel && lxqt-panel & disown
 ```bash
+```
 chmod +x ~/.config/autostart/refresh-icons.sh
+```
 ```
 (Again — replace $USER or hardcode your username.)
 
@@ -244,7 +246,7 @@ ________________________________________________________________________________
 ___________________________________________________________________________________
 
 ## Usage Examples:
-
+```
 pman install mpv
 
 Optional script - mpv-gui.sh - (loading of blank gui window)
