@@ -133,7 +133,7 @@ reboot
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Post-install – PipeWire autostart (run as root)
-
+```
 mkdir -p /etc/xdg/autostart
 
 cat > /etc/xdg/autostart/pipewire.desktop << 'EOF'
@@ -168,8 +168,8 @@ Hidden=false
 NoDisplay=true
 X-GNOME-Autostart-enabled=true
 EOF
-
-## Then log out / reboot → audio should work
+```
+Then log out / reboot → audio should work
 
 ## Copy paste between host and virtual management such as gnome boxes
 sudo pacman -S spice-vdagent-openrc
