@@ -266,6 +266,9 @@ Done!
 ## Some common fixes, hacks to improve specific applications:
 MPV desktop shortcut to open a blank gui and stay open
 ```bash
+mkdir -p ~/.config/mpv
+```
+```
 nano ~/.config/mpv/mpv.conf
 ```
 replace / add:
