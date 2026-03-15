@@ -261,7 +261,7 @@ sudo rc-service module-mounts status
 dmesg | grep -i mount
 
 Done!
-
+```
 ---------------------------------------------------------------------------------
 ## Some common fixes, hacks to improve specific applications:
 MPV desktop shortcut to open a blank gui and stay open
@@ -276,7 +276,7 @@ terminal         = no
 player-operation-mode = pseudo-gui     # ← this can help in some edge cases
 keep-open        = yes                 # redundant with idle=yes but explicit
 ```
-
+Linking potential hard coded apps for running from desktop shortcuts (lxqt)
 ```bash
 nano ~/.local/bin/gparted
 
@@ -289,7 +289,6 @@ exec "$MOD/usr/lib/gparted/gpartedbin" "$@"
 chmod +x ~/.local/bin/gparted
 
 sudo pacman -S lxqt-sudo
-
 
 nano ~/.local/share/applications/gparted.desktop
 
