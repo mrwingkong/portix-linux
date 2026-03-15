@@ -293,8 +293,8 @@ sudo pacman -S lxqt-sudo
 
 nano ~/.local/share/applications/gparted.desktop
 
-Exec=lxqt-sudo /home/mrwingkong/.local/bin/<app> %F
+Exec=lxqt-sudo /home/mrwingkong/.local/bin/gparted %F
 
 Test:
-lxqt-sudo /home/mrwingkong/.local/bin/<app>
+lxqt-sudo /home/mrwingkong/.local/bin/gparted
 
