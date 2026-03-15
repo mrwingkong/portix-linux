@@ -236,9 +236,8 @@ gtk-update-icon-cache ~/.local/share/icons/hicolor/ 2>/dev/null || true
 gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true
 pkill lxqt-panel && lxqt-panel & disown
 ```bash
-```
 chmod +x ~/.config/autostart/refresh-icons.sh
-```
+```bash
 ```
 (Again — replace $USER or hardcode your username.)
 
