@@ -4,11 +4,26 @@ sudo pacman -S spice-vdagent-openrc
 sudo rc-update add spice-vdagent default
 sudo rc-service spice-vdagent start
 ```
+## Extra packages
+```
+sudo pacman -S  git
+sudo pacman -S  wget
+```
+## Installing yay & brave browser
+```
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+cd ~
+yay -Sy brave-bin
+
+
+
 ## maybe required for file transfers
 spice-webdavd
 
 ## Flutter Doctor / Dart requirements
-[ Potentially install unzip for flutter install in vscode ]
+[ Potentially install "unzip" for flutter install in vscode ]
 ```
 sudo pacman -S clang cmake ninja mesa-utils
 ```
