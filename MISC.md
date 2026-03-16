@@ -8,6 +8,7 @@ sudo rc-service spice-vdagent start
 spice-webdavd
 
 ## Flutter Doctor / Dart requirements
+[ Potentially install unzip for flutter install in vscode ]
 ```
 sudo pacman -S clang cmake ninja mesa-utils
 ```
