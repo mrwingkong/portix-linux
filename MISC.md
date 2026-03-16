@@ -16,9 +16,7 @@ cd yay
 makepkg -si
 cd ~
 yay -Sy brave-bin
-
-
-
+```
 ## maybe required for file transfers
 spice-webdavd
 
