@@ -244,15 +244,38 @@ chmod +x ~/.config/autostart/refresh-icons.sh
 ___________________________________________________________________________________
 ___________________________________________________________________________________
 
-## Usage Examples:
+## pman commands:
 ```
 pman install mpv
-
-Optional script - mpv-gui.sh - (loading of blank gui window)
-
 pman remove mpv
 
+Place the backed-up .xzm files into the modules folder:Bashcp /path/to/backup/*.xzm ~/modules/(or drag them in via file manager)
+Reboot (or manually trigger the mount service if you don't want to reboot):Bashsudo rc-service module-mounts restartThat's it.
 
+After reboot (or service restart):
+
+The module-mounts service will loop through ~/modules/00-*.xzm files
+Mount each one read-only at ~/modules-mounts/<app-name>
+chown the mount point to your user
+Your existing wrappers in ~/.local/bin and .desktop files in ~/.local/share/applications (from home backup) will point to the mounted paths and work as before
+
+Important notes for success
+
+Home must be restored too (or at least the relevant parts):
+~/.local/bin (wrappers)
+~/.local/share/applications (.desktop shortcuts)
+~/.local/share/icons / pixmaps (icons)
+Any app configs (e.g. ~/.config/mpv/mpv.conf)
+If you only restore modules but not home, you'll need to recreate the wrappers and .desktop files (run pman install <app> again — it skips rebuild if module exists but recreates launcher files).
+Module names must match:
+The service expects 00-<app>.xzm format (e.g. 00-gparted.xzm)
+If your backup has different names, rename them to match.
+
+No rebuild needed — the squashfs is self-contained (libs, binaries, etc.), so as long as the module was built correctly on the original system, it will work on the new one (assuming same architecture: x86_64).
+If something doesn't auto-mount:
+Check service logs:Bashsudo rc-service module-mounts status
+# or tail -f /var/log/messages | grep mountOr manually mount one for debug:Bashsudo mount -o loop,ro ~/modules/00-gparted.xzm ~/modules-mounts/gparted
+sudo chown -R mrwingkong:mrwingkong ~/modules-mounts/gparted
 
 ## If something fails:
 
@@ -263,6 +286,7 @@ dmesg | grep -i mount
 Done!
 ```
 ---------------------------------------------------------------------------------
+
 ## Some common fixes, hacks to improve specific applications:
 MPV desktop shortcut to open a blank gui and stay open
 ```bash
@@ -279,7 +303,7 @@ terminal         = no
 player-operation-mode = pseudo-gui     # ← this can help in some edge cases
 keep-open        = yes                 # redundant with idle=yes but explicit
 ```
-Linking potential hard coded apps for running from desktop shortcuts (lxqt)
+Linking potential hard coded apps for running from desktop shortcuts (lxqt) example 'gparted'
 ```bash
 nano ~/.local/bin/gparted
 
