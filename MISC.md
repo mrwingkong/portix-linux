@@ -25,7 +25,7 @@ yay -Sy brave-bin
 sudo pacman -S unzip clang cmake ninja mesa-utils qemu-base libbsd
 
 ```
-## virtual management / KVM hardware acceleration user permission
+## Virtual management / KVM hardware acceleration user permission
 ```
 sudo usermod -aG kvm mrwingkong
 ```
