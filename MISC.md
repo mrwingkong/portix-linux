@@ -25,10 +25,9 @@ yay -Sy brave-bin
 sudo pacman -S unzip clang cmake ninja mesa-utils qemu-base libbsd
 
 ```
-## For virtual management KVM
+## virtual management / KVM hardware acceleration user permission
 ```
-sudo usermod -aG kvm $USER
-echo -e "kvm\nkvm_intel\nkvm_amd" | sudo tee /etc/modules-load.d/kvm.conf
+sudo usermod -aG kvm mrwingkong
 ```
 ## Edit .bashrc
 Add flutter chrome redirect to brave
