@@ -20,11 +20,15 @@ makepkg -si
 cd ~
 yay -Sy brave-bin
 ```
-## Flutter Doctor / Dart requirements
-[ Potentially install "unzip" for flutter install in vscode ]
+## Android Studio / VSCode / Flutter Dart App Development
 ```
-sudo pacman -S clang cmake ninja mesa-utils
+sudo pacman -S unzip clang cmake ninja mesa-utils qemu-base libbsd
+
 ```
+sudo usermod -aG kvm mrwingkong
+echo "kvm_intel" | sudo tee -a /etc/modules-load.d/kvm.conf
+sudo modprobe kvm_intel
+
 ## Edit .bashrc
 Add flutter chrome redirect to brave
 Add flutter to path
