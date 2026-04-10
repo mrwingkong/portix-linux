@@ -22,7 +22,7 @@ yay -Sy brave-bin
 ```
 ## Android Studio / VSCode / Flutter Dart App Development
 ```
-sudo pacman -S unzip clang cmake ninja mesa-utils qemu-base libbsd
+sudo pacman -S clang cmake ninja qemu-base libbsd
 
 ```
 ## Virtual management / KVM hardware acceleration user permission
