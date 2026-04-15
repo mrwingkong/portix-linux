@@ -109,7 +109,7 @@ EDITOR=nano visudo
 ```
 ## 7. Install Desktop, tools, packages
 ```
-pacman -Syu grub efibootmgr lxqt sddm sddm-openrc mesa mesa-utils vulkan-intel vulkan-tools networkmanager networkmanager-openrc network-manager-applet blueman bluez bluez-openrc bluez-utils alsa-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber wireplumber-openrc pavucontrol-qt xfwm4 picom nemo squashfs-tools sed mujs pacman-contrib libarchive libstatgrab unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools dosfstools
+pacman -Syu grub efibootmgr lxqt sddm sddm-openrc mesa mesa-utils vulkan-intel vulkan-tools networkmanager networkmanager-openrc network-manager-applet blueman bluez bluez-openrc bluez-utils alsa-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber wireplumber-openrc pavucontrol-qt xfwm4 picom nemo squashfs-tools sed mujs pacman-contrib libarchive libstatgrab unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools dosfstools spice-vdagent-openrc
 ```
 ## 8. GRUB (UEFI + legacy BIOS)
 ```
@@ -122,6 +122,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 rc-update add sddm default
 rc-update add NetworkManager default
 rc-update add bluetoothd default
+rc-update add spice-vdagent default
 ```
 ## 10. Finish
 
