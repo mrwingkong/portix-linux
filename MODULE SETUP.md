@@ -246,6 +246,7 @@ ________________________________________________________________________________
 
 ## pman commands:
 ```
+pman install featherpad
 pman install mpv
 pman remove mpv
 
