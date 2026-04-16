@@ -8,6 +8,12 @@ sudo rc-service spice-vdagent start
 ```
 sudo pacman -S spice-webdavd
 ```
+## 
+For apps that use terminal (only add lxqt sudo if root privalages needed, change terminal to faveroute)
+remomve the &F and add lxqt-sudo qterminal -e
+```
+Exec=lxqt-sudo qterminal -e /home/mrwingkong/.local/bin/btop
+```
 ## Installing yay & brave browser
 ```
 git clone https://aur.archlinux.org/yay.git
