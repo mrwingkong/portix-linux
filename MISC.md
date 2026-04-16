@@ -6,11 +6,6 @@ sudo rc-service spice-vdagent start
 ```
 ## maybe required for file transfers
 spice-webdavd
-
-## Extra packages
-```
-sudo pacman -S  git
-sudo pacman -S  wget
 ```
 ## Installing yay & brave browser
 ```
