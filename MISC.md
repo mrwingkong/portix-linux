@@ -10,8 +10,7 @@ sudo pacman -S spice-webdavd
 ```
 ## 
 ## For apps that use terminal
-```
-```
+
 (only add lxqt sudo if root privalages needed, change terminal to faveroute)
 remomve the &F and add lxqt-sudo qterminal -e
 ```
