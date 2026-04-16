@@ -5,7 +5,7 @@ sudo rc-update add spice-vdagent default
 sudo rc-service spice-vdagent start
 ```
 ## maybe required for file transfers
-spice-webdavd
+# spice-webdavd
 ```
 ```
 ## Installing yay & brave browser
