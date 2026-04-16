@@ -9,9 +9,9 @@ sudo rc-service spice-vdagent start
 sudo pacman -S spice-webdavd
 ```
 ## 
-## For apps that use terminal
+## For apps that use terminal not loading
 
-(only add lxqt sudo if root privalages needed, change terminal to faveroute)
+Change .desktop shortcut details (only add lxqt sudo if root privalages needed, change terminal to faveroute)
 remomve the &F and add lxqt-sudo qterminal -e
 ```
 Exec=lxqt-sudo qterminal -e /home/mrwingkong/.local/bin/btop
