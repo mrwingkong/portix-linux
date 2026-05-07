@@ -7,8 +7,6 @@ Separate BTRFS root & home, hybrid UEFI+BIOS GRUB, SDDM login, LXQt desktop envi
 ## 1. Wipe & Partition
 ```
 wipefs -a /dev/sda
-dd if=/dev/zero of=/dev/sda bs=1M count=10 status=progress conv=fsync
-sync
 ````
 ````
 cfdisk /dev/sda
@@ -25,21 +23,12 @@ sda4 - rest - Linux filesystem   (home)
  
 Write changes & quit
 ```
-wipefs --all --force /dev/sda2
-dd if=/dev/zero of=/dev/sda2 bs=1M count=2 status=progress conv=fsync
-sync
-lsblk -f /dev/sda   # confirm sda2 has no filesystem
 ```
 ## 2. Format Partitions
 ```
 mkfs.fat -F32 /dev/sda1
 mkfs.btrfs -f /dev/sda3
 mkfs.btrfs -f /dev/sda4
-```
-Fix "Not automatically fixing this" label on EFI partition (clears dirty bit and repairs filesystem cleanly)
-auto-repair; if "device busy", umount first then remount after
-```
-fsck.vfat -a /dev/sda1
 ```
 ## 3. Mount Partitions
 ```
@@ -62,6 +51,15 @@ quit
 ## Optional – time sync
 ```
 rc-service ntpd start
+```
+## Add rank best artix mirrors
+```
+pacman -Syy
+pacman -S pacman-contrib
+```
+```
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-artix
+rankmirrors /etc/pacman.d/mirrorlist-artix > /etc/pacman.d/mirrorlist
 ```
 ## 5. Base system setup
 ```
