@@ -22,8 +22,6 @@ sda3 - 128G - Linux filesystem   (root)
 sda4 - rest - Linux filesystem   (home)
  
 Write changes & quit
-```
-```
 
 ## 2. Format Partitions
 ```
