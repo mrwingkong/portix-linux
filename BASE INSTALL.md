@@ -4,6 +4,10 @@
 
 Separate BTRFS root & home, hybrid UEFI+BIOS GRUB, SDDM login, LXQt desktop enviorment + additional tools & packages
 
+## 0. check disk names
+```
+lsblk
+```
 ## 1. Wipe & Partition
 ```
 wipefs -a /dev/sda
