@@ -66,7 +66,7 @@ rankmirrors /etc/pacman.d/mirrorlist-artix > /etc/pacman.d/mirrorlist
 ```
 ## 5. Base system setup
 ```
-basestrap /mnt base base-devel openrc elogind-openrc linux linux-headers linux-firmware intel-ucode sof-firmware nano
+basestrap /mnt base base-devel openrc elogind-openrc linux linux-headers linux-firmware intel-ucode sof-firmware intel-media-driver libva-utils nano
 ```
 ```
 bash -c 'fstabgen -U /mnt > /mnt/etc/fstab'
