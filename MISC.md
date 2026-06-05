@@ -1,7 +1,3 @@
-## Additional packages / installations
-```
-sudo pacman -S libva libva-utils intel-media-driver xf86-video-nouveau
-```
 ## Copy paste between host and virtual management specifically 'gnome boxes'
 ```
 sudo pacman -S spice-vdagent-openrc
