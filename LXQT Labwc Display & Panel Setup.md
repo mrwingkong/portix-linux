@@ -32,9 +32,10 @@ EOF
 chmod +x ~/.local/bin/restart-lxqt-panel.sh
 ```
 ## 3. Create the Kanshi Configuration (with 4 profiles)
-
+```
 mkdir -p ~/.config/kanshi
-
+```
+```
 cat > ~/.config/kanshi/config << 'EOF'
 # === FULL SETUP (your normal layout) ===
 profile {
@@ -59,7 +60,7 @@ profile {
     exec ~/.local/bin/restart-lxqt-panel.sh
 }
 
-# === LAPTOP ONLY ===
+# === eDP LAPTOP ONLY ===
 profile {
     output eDP-1 {
         mode 2880x1800@60.000000
@@ -70,7 +71,7 @@ profile {
     exec ~/.local/bin/restart-lxqt-panel.sh
 }
 
-# === DP-1 (middle) + laptop ===
+# === DP-1 (middle) + eDP laptop ===
 profile {
     output DP-1 {
         mode 2560x1440@59.951000
@@ -87,7 +88,7 @@ profile {
     exec ~/.local/bin/restart-lxqt-panel.sh
 }
 
-# === DP-2 (portrait) + laptop ===
+# === DP-2 (portrait) + eDP laptop ===
 profile {
     output DP-2 {
         mode 1920x1080@60.000000
@@ -104,9 +105,9 @@ profile {
     exec ~/.local/bin/restart-lxqt-panel.sh
 }
 EOF
-
-4. Create the Autostart File
-
+```
+## 4. Create the Autostart File
+```
 cat > ~/.config/labwc/autostart << 'EOF'
 # Background
 swaybg -i /usr/share/lxqt/wallpapers/origami-dark-labwc.png >/dev/null 2>&1 &
@@ -133,16 +134,16 @@ Exec=lxqt-panel
 Hidden=true
 X-LXQt-Module=true
 EOF
-
-6. Apply Everything
-
+```
+## 6. Apply Everything
+```
 pkill -x kanshi 2>/dev/null || true
 pkill -x lxqt-panel 2>/dev/null || true
 
 kanshi >/dev/null 2>&1 &
 lxqt-panel &
-
-7. Final Test
+```
+## 7. Final Test
 
 Log out and log back in (or reboot).
 After login you should have one panel and your monitors in the correct layout (including 270° rotation on DP-2).
