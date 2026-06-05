@@ -1,6 +1,4 @@
 ## 1. Install Required Packages 
-(setup displays with wdisplays gui then grab details of setup with wlr-randr)
-
 On a fresh updated system, install these:
 ```
 sudo pacman -S
