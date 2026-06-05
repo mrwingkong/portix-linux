@@ -66,7 +66,7 @@ rankmirrors /etc/pacman.d/mirrorlist-artix > /etc/pacman.d/mirrorlist
 ```
 ## 5. Base system setup
 ```
-basestrap /mnt base base-devel openrc elogind-openrc linux linux-headers linux-firmware intel-ucode sof-firmware intel-media-driver libva-utils nano
+basestrap /mnt base base-devel openrc elogind-openrc linux linux-headers linux-firmware sof-firmware intel-ucode intel-media-driver libva-utils nano
 ```
 ```
 bash -c 'fstabgen -U /mnt > /mnt/etc/fstab'
@@ -110,7 +110,7 @@ EDITOR=nano visudo
 ```
 ## 7. Install Desktop, tools, packages
 ```
-pacman -Syu grub efibootmgr lxqt sddm sddm-openrc mesa mesa-utils vulkan-intel vulkan-tools networkmanager networkmanager-openrc network-manager-applet blueman bluez bluez-openrc bluez-utils alsa-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber wireplumber-openrc fprintd pavucontrol-qt xfwm4 picom nemo git wget squashfs-tools sed mujs pacman-contrib libarchive libstatgrab unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools dosfstools spice-vdagent-openrc
+pacman -Syu grub efibootmgr lxqt sddm sddm-openrc mesa mesa-utils vulkan-intel vulkan-tools networkmanager networkmanager-openrc network-manager-applet blueman bluez bluez-openrc bluez-utils alsa-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber wireplumber-openrc fprintd pavucontrol-qt git wget sed mujs pacman-contrib libarchive libstatgrab unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools dosfstools squashfs-tools spice-vdagent-openrc
 ```
 ## 8. GRUB (UEFI + legacy BIOS)
 ```
