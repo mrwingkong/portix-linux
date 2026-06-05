@@ -1,4 +1,4 @@
-# Artix Linux OpenRC with LXQt desktop enviorment & xzm module support packages
+# Artix Linux OpenRC with LXQt Wayland desktop enviorment Labwc compositor and xzm module support packages
 
 (Minimal base Artix install iso as of March 2026)
 
