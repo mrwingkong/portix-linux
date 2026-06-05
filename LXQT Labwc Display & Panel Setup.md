@@ -1,8 +1,9 @@
 ## 1. Install Required Packages
 On a fresh updated system, install these:
 ```
-sudo pacman -S \
+sudo pacman -S
 ```
+`
     kanshi \
     wlr-randr \
     wdisplays \
