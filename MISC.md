@@ -27,7 +27,7 @@ example installation for brave web browser
 ```
 yay -Sy brave-bin
 ```
-## Android Studio / VSCode / Flutter Dart App Development
+## Android Studio / VSCode / Flutter Dart app development package requirmenets
 ```
 sudo pacman -S clang cmake ninja qemu-base libbsd
 
