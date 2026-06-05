@@ -23,7 +23,7 @@ cd yay
 makepkg -si
 cd ~
 ```
-example for brave web browser
+example installation for brave web browser
 ```
 yay -Sy brave-bin
 ```
