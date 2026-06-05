@@ -1,4 +1,4 @@
-##1. Install Required Packages
+## 1. Install Required Packages
 On a fresh updated system, install these:
 
 sudo pacman -S \
