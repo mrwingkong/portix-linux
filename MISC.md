@@ -24,11 +24,11 @@ yay -Sy brave-bin
 sudo pacman -S clang cmake ninja qemu-base libbsd
 
 ```
-## Virtual management / KVM hardware acceleration user permission
+Virtual management / KVM hardware acceleration user permission
 ```
 sudo usermod -aG kvm mrwingkong
 ```
-## Edit .bashrc
+Edit .bashrc
 Add flutter chrome redirect to brave
 Add flutter to path
 ```
