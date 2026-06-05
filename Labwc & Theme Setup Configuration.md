@@ -1,4 +1,4 @@
-## Edit the "rc.xml" file under .config/labwc
+## 1. Edit the "rc.xml" file under .config/labwc
 ```
 <labwc_config>
   <core>
