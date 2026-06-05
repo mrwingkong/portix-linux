@@ -8,14 +8,6 @@ Possible requirement for file transfers
 ```
 sudo pacman -S spice-webdavd
 ```
-## 
-## For apps not loading that require terminal
-
-Change .desktop shortcut details (add lxqt sudo if root privalages needed, add terminal program -e)
-remove the &F
-```
-Exec=lxqt-sudo qterminal -e /home/mrwingkong/.local/bin/btop
-```
 ## AUR package installtions - yay AUR helper
 ```
 git clone https://aur.archlinux.org/yay.git
@@ -42,3 +34,11 @@ Add flutter to path
 ```
 export CHROME_EXECUTABLE=/opt/brave-bin/brave-browser
 export PATH="$HOME/flutter/bin:$PATH"
+```
+## For apps not loading that require terminal
+
+Change .desktop shortcut details (add lxqt sudo if root privalages needed, add terminal program -e)
+remove the &F
+```
+Exec=lxqt-sudo qterminal -e /home/mrwingkong/.local/bin/btop
+```
