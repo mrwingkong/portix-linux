@@ -2,13 +2,13 @@
 ```
 sudo pacman -S libva libva-utils intel-media-driver xf86-video-nouveau
 ```
-## Copy paste between host and virtual management gnome boxes
+## Copy paste between host and virtual management specifically 'gnome boxes'
 ```
 sudo pacman -S spice-vdagent-openrc
 sudo rc-update add spice-vdagent default
 sudo rc-service spice-vdagent start
 ```
-## maybe required for file transfers
+Possible requirement for file transfers
 ```
 sudo pacman -S spice-webdavd
 ```
@@ -20,12 +20,15 @@ remove the &F
 ```
 Exec=lxqt-sudo qterminal -e /home/mrwingkong/.local/bin/btop
 ```
-## Installing yay & brave browser
+## AUR package installtions - yay AUR helper
 ```
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 cd ~
+```
+example for brave web browser
+```
 yay -Sy brave-bin
 ```
 ## Android Studio / VSCode / Flutter Dart App Development
