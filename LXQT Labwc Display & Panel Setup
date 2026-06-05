@@ -1,4 +1,4 @@
-1. Install Required Packages
+##1. Install Required Packages
 On a fresh updated system, install these:
 
 sudo pacman -S \
@@ -8,8 +8,8 @@ sudo pacman -S \
     swaybg \
     swayidle \
     wlopm
-"
-"
+````
+````
 2. Create the Panel Restart Wrapper Script
 
 mkdir -p ~/.local/bin
