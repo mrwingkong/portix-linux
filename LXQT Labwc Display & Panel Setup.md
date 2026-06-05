@@ -2,6 +2,7 @@
 On a fresh updated system, install these:
 ```
 sudo pacman -S \
+```
     kanshi \
     wlr-randr \
     wdisplays \
