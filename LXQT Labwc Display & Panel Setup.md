@@ -3,9 +3,7 @@ On a fresh updated system, install these:
 ```
 sudo pacman -S
 
-```
 kanshi \ wlr-randr \ wdisplays \ swaybg \ swayidle \ wlopm
-```
 ```
 ## 2. Create the Panel Restart Wrapper Script
 ```
