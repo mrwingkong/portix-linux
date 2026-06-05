@@ -1,6 +1,6 @@
 ## 1. Install Required Packages
 On a fresh updated system, install these:
-
+```
 sudo pacman -S \
     kanshi \
     wlr-randr \
@@ -8,15 +8,16 @@ sudo pacman -S \
     swaybg \
     swayidle \
     wlopm
-````
-````
-2. Create the Panel Restart Wrapper Script
-
+```
+## 2. Create the Panel Restart Wrapper Script
+```
 mkdir -p ~/.local/bin
-
+```
+```
 cat > ~/.local/bin/restart-lxqt-panel.sh << 'EOF'
 #!/bin/sh
 echo "=== PANEL RESTART TRIGGERED at $(date) ===" >> ~/.kanshi-panel.log
+
 
 pkill -x lxqt-panel 2>/dev/null || true
 pkill -9 -x lxqt-panel 2>/dev/null || true
@@ -26,10 +27,11 @@ lxqt-panel &
 
 echo "=== PANEL RESTARTED at $(date) ===" >> ~/.kanshi-panel.log
 EOF
-
+```
+```
 chmod +x ~/.local/bin/restart-lxqt-panel.sh
-
-3. Create the Kanshi Configuration (with 4 profiles)
+```
+## 3. Create the Kanshi Configuration (with 4 profiles)
 
 mkdir -p ~/.config/kanshi
 
