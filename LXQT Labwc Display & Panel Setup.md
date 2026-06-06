@@ -118,11 +118,12 @@ sleep 6 && kanshi >/dev/null 2>&1 &
 # Idle display off (optional but recommended)
 swayidle -w timeout 300 "wlopm --off *" resume "wlopm --on *" >/dev/null 2>&1 &
 EOF
-
-5. Prevent LXQt from Auto-Starting the Panel
-
+```
+## 5. Prevent LXQt from Auto-Starting the Panel
+```
 mkdir -p ~/.config/autostart
-
+```
+```
 cat > ~/.config/autostart/lxqt-panel.desktop << 'EOF'
 [Desktop Entry]
 Type=Application
