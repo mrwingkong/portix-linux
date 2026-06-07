@@ -9,7 +9,7 @@ rankmirrors /etc/pacman.d/mirrorlist-artix > /etc/pacman.d/mirrorlist
 ```
 libnotify wlr-randr kanshi swaybg libarchive libstatgrab git wget unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools dosfstools qt6-tools squashfs-tools sed mujs clang cmake ninja qemu-base libbsd spice-vdagent-openrc
 ```
-## AUR package installtions - yay AUR helper
+## AUR package installations - yay AUR helper
 ```
 git clone https://aur.archlinux.org/yay.git
 cd yay
