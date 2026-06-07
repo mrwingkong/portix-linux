@@ -31,16 +31,7 @@ Possible requirement for file transfers in 'gnome boxes'
 ```
 sudo pacman -S spice-webdavd
 ```
-example installation for brave web browser
-```
-yay -Sy brave-bin
-```
-## Android Studio / VSCode / Flutter Dart app development package requirements
-```
-sudo pacman -S clang cmake ninja qemu-base libbsd
-
-```
-Virtual management / KVM hardware acceleration user permission
+## Virtual management / KVM hardware acceleration user permission
 ```
 sudo usermod -aG kvm mrwingkong
 ```
