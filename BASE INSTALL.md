@@ -1,5 +1,5 @@
 ## Artix OpenRC Linux with LXQt Wayland desktop & labwc compositor
-Artix base iso March 2026
+Artix base .iso March 2026
 ## 0. check disk names
 ```
 lsblk
@@ -15,7 +15,7 @@ Partition type (gpt)
 
 sda1 - 512M - EFI System
 
-sda2 - 2M - BIOS boot
+sda2 - 2M (min) - BIOS boot
 
 sda3 - 128G - Linux filesystem   (root)
 
