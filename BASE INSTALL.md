@@ -1,6 +1,6 @@
-# Artix Linux OpenRC with LXQt Wayland desktop enviorment, Labwc compositor and xzm module support packages
+# Artix OpenRC Linux with LXQt Wayland desktop & labwc compositor
 
-(Minimal base Artix install iso as of March 2026)
+Artix base iso March 2026
 
 Separate BTRFS root & home, hybrid UEFI+BIOS GRUB, SDDM login, LXQt desktop enviorment + additional tools & packages
 
