@@ -110,7 +110,7 @@ EDITOR=nano visudo
 ```
 ## 7. Install Desktop, tools, packages
 ```
-pacman -Syu grub efibootmgr lxqt lxqt-wayland-session labwc xorg-xwayland qt6-wayland wlr-randr swaybg mesa mesa-utils vulkan-intel vulkan-tools fprintd networkmanager networkmanager-openrc network-manager-applet blueman bluez bluez-openrc bluez-utils alsa-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber wireplumber-openrc pavucontrol-qt
+pacman -Syu grub efibootmgr lxqt lxqt-wayland-session labwc xorg-xwayland libnotify qt6-wayland qt6-tools wlr-randr swaybg mesa mesa-utils vulkan-intel vulkan-tools fprintd networkmanager networkmanager-openrc network-manager-applet blueman bluez bluez-openrc bluez-utils alsa-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber wireplumber-openrc pavucontrol-qt
 ```
 ## 8. GRUB (UEFI + legacy BIOS)
 ```
