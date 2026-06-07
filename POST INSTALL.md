@@ -1,7 +1,12 @@
-pacman -S
-
-pacman-contrib libnotify wlr-randr kanshi swaybg libarchive libstatgrab git wget unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools dosfstools qt6-tools squashfs-tools sed mujs clang cmake ninja qemu-base libbsd spice-vdagent-openrc
-
+```
+pacman -Syy
+pacman-contrib
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-artix
+rankmirrors /etc/pacman.d/mirrorlist-artix > /etc/pacman.d/mirrorlist
+```
+```
+libnotify wlr-randr kanshi swaybg libarchive libstatgrab git wget unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools dosfstools qt6-tools squashfs-tools sed mujs clang cmake ninja qemu-base libbsd spice-vdagent-openrc
+```
 
 
 yay -S
