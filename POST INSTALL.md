@@ -1,3 +1,17 @@
+pacman -S
+
+pacman-contrib libnotify wlr-randr kanshi swaybg libarchive libstatgrab git wget unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools dosfstools qt6-tools squashfs-tools sed mujs clang cmake ninja qemu-base libbsd spice-vdagent-openrc
+
+
+
+yay -S
+
+brave-bin
+wdisplays-git
+labwc-teaks-git
+
+
+
 ## Copy paste between host and virtual management specifically 'gnome boxes'
 ```
 sudo pacman -S spice-vdagent-openrc
