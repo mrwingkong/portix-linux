@@ -4,7 +4,7 @@ sudo pacman -S spice-vdagent-openrc
 sudo rc-update add spice-vdagent default
 sudo rc-service spice-vdagent start
 ```
-Possible requirement for file transfers
+Possible requirement for file transfers in 'gnome boxes'
 ```
 sudo pacman -S spice-webdavd
 ```
