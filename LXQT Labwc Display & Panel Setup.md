@@ -1,47 +1,57 @@
 # LXQt + Labwc: Kanshi Display Profiles + LXQt Panel Restart
 
-**Purpose**: Automatically apply your preferred monitor layouts (resolution, position, rotation, scale) when plugging/unplugging displays. Restart the LXQt panel on every change so it doesn't disappear or appear duplicated/wrongly positioned.
+**Purpose**: Automatically apply your exact monitor layouts (including 270° portrait rotation) when you plug/unplug displays. On every change it restarts both the LXQt panel **and** the wallpaper setter so you never get solid-color screens or squashed/misplaced content on the laptop display after reconnecting the portrait monitor.
 
-Kanshi watches for display changes and applies the matching profile + runs your restart script.  
-A startup delay + hidden LXQt autostart prevents race conditions that cause duplicate or missing panels on login/reboot.
+Kanshi handles the layout switching. The custom restart script + delayed autostart + hidden LXQt panel entry fixes the common Wayland hotplug races.
 
 ---
 
 ## 1. Install Core Packages
 
 ```bash
-sudo pacman -S kanshi wlr-randr wdisplays
+sudo pacman -S kanshi wlr-randr wdisplays swaybg
 ```
 
-- `kanshi` — the heart (dynamic output profiles daemon)
-- `wlr-randr` — CLI tool to inspect current outputs/modes
-- `wdisplays` — GUI to visually arrange displays and generate kanshi snippets (highly recommended)
-
-(Optional) If you want a simple wallpaper via labwc:
-```bash
-sudo pacman -S swaybg
-```
+- `kanshi` — dynamic output profiles (the core of persistent display memory)
+- `wlr-randr` — inspect current outputs/modes from CLI
+- `wdisplays` — GUI to arrange monitors + export kanshi config (strongly recommended)
+- `swaybg` — sets wallpaper on all outputs; we now restart it on every hotplug to prevent solid-color screens
 
 ---
 
-## 2. Panel Restart Script (triggered by kanshi)
+## 2. Panel + Wallpaper Restart Script (triggered by kanshi on every hotplug)
+
+This is the key fix for your issue.
+
+When you reconnect the portrait monitor, kanshi applies the new layout, but the wallpaper (and sometimes the panel) needs to be explicitly repainted on the newly enabled/rotated output. Without this, you get solid color on the external screen and visual corruption (squashed/misplaced content) on the laptop display.
 
 ```bash
 mkdir -p ~/.local/bin
 
 cat > ~/.local/bin/restart-lxqt-panel.sh << 'EOF'
 #!/bin/sh
-echo "[$(date '+%F %T')] Panel restart triggered" >> ~/.kanshi-panel.log
+echo "[$(date '+%F %T')] kanshi profile applied - restarting panel + wallpaper" >> ~/.kanshi-panel.log
 
+# Kill existing instances
 pkill -x lxqt-panel 2>/dev/null || true
-sleep 1.5
+pkill -x swaybg 2>/dev/null || true
+
+# Give outputs time to fully enable/rotate after kanshi change (important for 270° portrait)
+sleep 2
+
+# Re-apply wallpaper to ALL current outputs (fixes solid color on reconnected portrait screen)
+swaybg -i /usr/share/lxqt/wallpapers/origami-dark-labwc.png >/dev/null 2>&1 &
+
+# Restart panel (prevents duplicates and fixes positioning after layout change)
 lxqt-panel &
 
-echo "[$(date '+%F %T')] Panel restarted" >> ~/.kanshi-panel.log
+echo "[$(date '+%F %T')] Panel + wallpaper restarted cleanly" >> ~/.kanshi-panel.log
 EOF
 
 chmod +x ~/.local/bin/restart-lxqt-panel.sh
 ```
+
+**Tip**: If you use a different wallpaper image, change the path in the script (and in autostart below).
 
 ---
 
@@ -133,19 +143,21 @@ YOUR_PROFILES_HERE
 
 ## 4. Labwc Autostart (delayed kanshi start)
 
-The `sleep` prevents kanshi + panel from starting before the LXQt session is fully ready (common cause of duplicate/missing panels).
+The initial `sleep` prevents race conditions on login.  
+`swaybg` is started here once at boot; the restart script (section 2) re-runs it on every hotplug so new/rotated outputs always get the wallpaper.
 
 ```bash
 mkdir -p ~/.config/labwc
 
 cat > ~/.config/labwc/autostart << 'EOF'
-# Optional wallpaper
+# Kill any previous swaybg and set wallpaper on all outputs
+pkill -x swaybg 2>/dev/null || true
 swaybg -i /usr/share/lxqt/wallpapers/origami-dark-labwc.png >/dev/null 2>&1 &
 
-# Wayland environment
+# Wayland environment vars
 dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY >/dev/null 2>&1 &
 
-# Start kanshi after a short delay (adjust 4-8s if you still get duplicate panels)
+# Delayed kanshi start (tune 4-8s if you still see duplicate panels on login)
 sleep 6 && kanshi >/dev/null 2>&1 &
 EOF
 ```
@@ -186,19 +198,21 @@ Log out and back in (or reboot) to test the full flow.
 
 ## 7. Verify & Debug Hotplug
 
-After plugging/unplugging a monitor:
+After plugging/unplugging a monitor (especially the portrait one):
 
 ```bash
 tail -n 30 ~/.kanshi-panel.log
 ```
 
-You should see restart entries and your layout should be correct with exactly one panel.
+You should see clean "Panel + wallpaper restarted cleanly" entries. The external portrait screen should now have the wallpaper (not solid color), and the laptop screen should show a single clean image without squashed/misplaced content from the other monitor.
 
-If the panel is still missing after hotplug, increase the `sleep` in the restart script or in autostart.
+**If you still see solid color on the reconnected screen or squashing on the laptop:**
+- Increase `sleep 2` to `sleep 3` in the restart script.
+- Make sure the exact `mode`, `position`, `transform`, and `scale` lines in your kanshi profiles match what `wlr-randr` reports when that monitor is connected.
+- Re-export fresh profiles with `wdisplays` after a clean reconnect.
+- Check `journalctl --user -u kanshi` or run `kanshi` manually in a terminal for errors.
 
 ---
 
 **That's it.**  
 No idle/sleep display management, no unnecessary complexity. Just reliable display memory + panel that survives hotplug events.
-
-cat ~/.kanshi-panel.log | tail -n 10
