@@ -1,9 +1,5 @@
-# Artix OpenRC Linux with LXQt Wayland desktop & labwc compositor
-
+## Artix OpenRC Linux with LXQt Wayland desktop & labwc compositor
 Artix base iso March 2026
-
-Separate BTRFS root & home, hybrid UEFI+BIOS GRUB, SDDM login, LXQt desktop enviorment + additional tools & packages
-
 ## 0. check disk names
 ```
 lsblk
