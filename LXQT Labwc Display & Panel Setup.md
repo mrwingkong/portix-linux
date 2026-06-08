@@ -152,7 +152,6 @@ mkdir -p ~/.config/labwc
 cat > ~/.config/labwc/autostart << 'EOF'
 # Kill any previous swaybg and set wallpaper on all outputs
 pkill -x swaybg 2>/dev/null || true
-swaybg -i /usr/share/lxqt/wallpapers/origami-dark-labwc.png >/dev/null 2>&1 &
 
 # Wayland environment vars
 dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY >/dev/null 2>&1 &
