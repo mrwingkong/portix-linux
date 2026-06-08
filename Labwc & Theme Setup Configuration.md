@@ -1,3 +1,6 @@
+## custom rc.xml file - including title bar button placement
+.config/labwc/rc.xml
+```
 <labwc_config>
   <core>
     <decoration>server</decoration>
