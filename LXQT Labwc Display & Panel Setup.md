@@ -150,14 +150,20 @@ The initial `sleep` prevents race conditions on login.
 mkdir -p ~/.config/labwc
 
 cat > ~/.config/labwc/autostart << 'EOF'
-# Kill any previous swaybg and set wallpaper on all outputs
+#!/bin/sh
+
+# Kill any old wallpaper process
 pkill -x swaybg 2>/dev/null || true
 
-# Wayland environment vars
+# Wayland environment variables
 dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY >/dev/null 2>&1 &
 
-# Delayed kanshi start (tune 4-8s if you still see duplicate panels on login)
+# Delayed kanshi start (display configuration)
 sleep 6 && kanshi >/dev/null 2>&1 &
+
+# Start the panel (this also helps with USB devices on other computers)
+sleep 5
+lxqt-panel &
 EOF
 ```
 
