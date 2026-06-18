@@ -18,7 +18,7 @@ cd ~
 ```
 ```
 yay -S brave-bin
-yay -S wdisplays-git
+yay -S wdisplays-persistent
 yay -S labwc-teaks-git
 ```
 ## Copy paste between host and virtual management specifically 'gnome boxes'
