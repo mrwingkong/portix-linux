@@ -31,13 +31,11 @@ Possible requirement for file transfers in 'gnome boxes'
 ```
 sudo pacman -S spice-webdavd
 ```
-```
 ## Add flutter chrome redirect to brave / Add flutter to path
 add to .bashrc
 ```
 export CHROME_EXECUTABLE=/opt/brave-bin/brave-browser
 export PATH="$HOME/flutter/bin:$PATH"
-```
 ```
 ## Virtual management / KVM hardware acceleration user permission (NOT NEEDED FOR WAYLAND)
 ```
