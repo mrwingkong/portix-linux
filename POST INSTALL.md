@@ -31,7 +31,7 @@ Possible requirement for file transfers in 'gnome boxes'
 ```
 sudo pacman -S spice-webdavd
 ```
-## Add Chrome redirect to brave  /  Flutter to system path
+## Add chrome browser redirect to brave browser /  Add Flutter to system path
 add to .bashrc
 ```
 export CHROME_EXECUTABLE=/opt/brave-bin/brave-browser
