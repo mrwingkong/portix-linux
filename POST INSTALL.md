@@ -35,9 +35,8 @@ sudo pacman -S spice-webdavd
 ```
 sudo usermod -aG kvm mrwingkong
 ```
-Edit .bashrc
-Add flutter chrome redirect to brave
-Add flutter to path
+## Add flutter chrome redirect to brave / Add flutter to path
+add to .bashrc
 ```
 export CHROME_EXECUTABLE=/opt/brave-bin/brave-browser
 export PATH="$HOME/flutter/bin:$PATH"
