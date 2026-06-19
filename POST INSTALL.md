@@ -16,12 +16,11 @@ cd yay
 makepkg -si
 cd ~
 ```
+For wdisplays to be persistent and save configurations, kanshi needs to be installed and a initial config in place
 ```
 yay -S brave-bin
 yay -S wdisplays-persistent
 yay -S labwc-teaks-git
-```
-For wdisplays to be persistent and save configurations, kanshi needs to be installed and a initial config in place
 ```
 ## Copy paste between host and virtual management specifically 'gnome boxes'
 ```
