@@ -9,7 +9,7 @@
   <theme>
     <name>Mac Classic Platinum</name>
     <titlebar>
-      <layout>close:iconify,max</layout>
+      <layout>close:min,max,iconify</layout>
     </titlebar>
     <cornerRadius>0</cornerRadius>
   </theme>
@@ -75,4 +75,9 @@
   <mouse>
     <default />
   </mouse>
+  <libinput>
+    <device>
+      <dragLock>no</dragLock>
+    </device>
+  </libinput>
 </labwc_config>
