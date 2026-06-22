@@ -1,4 +1,4 @@
-## custom rc.xml file - including title bar button placement (make backup of original first)
+## custom rc.xml file - including title bar button placement (make a backup of original first)
 .config/labwc/rc.xml
 ```
 <labwc_config>
