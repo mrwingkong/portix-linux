@@ -127,6 +127,7 @@ chmod +x ~/.local/bin/brightness-osd.sh
 ```bash
 cat > ~/.local/bin/battery-watch.sh << 'EOF'
 #!/bin/bash
+
 LOW_LEVEL=5
 WARN_LEVEL=10
 WARNING_SECONDS=30
@@ -146,10 +147,12 @@ while true; do
     CAPACITY=$(cat /sys/class/power_supply/$BAT_PATH/capacity 2>/dev/null)
     STATUS=$(cat /sys/class/power_supply/$BAT_PATH/status 2>/dev/null)
 
+    # Reset the 10% warning flag when charging or above 10%
     if [ "$STATUS" != "Discharging" ] || [ "$CAPACITY" -gt "$WARN_LEVEL" ]; then
         rm -f "$WARNED_10_FILE"
     fi
 
+    # 10% simple warning (only once)
     if [ "$STATUS" = "Discharging" ] && [ "$CAPACITY" -le "$WARN_LEVEL" ] && [ "$CAPACITY" -gt "$LOW_LEVEL" ]; then
         if [ ! -f "$WARNED_10_FILE" ]; then
             notify-send -u normal -t 5000 \
@@ -159,8 +162,10 @@ while true; do
         fi
     fi
 
+    # 5% critical warning + countdown
     if [ "$STATUS" = "Discharging" ] && [ "$CAPACITY" -le "$LOW_LEVEL" ]; then
-        ACTION=$(notify-send -u normal -t 0 \
+
+        ACTION=$(notify-send -u critical -t 0 \
             -h string:x-canonical-private-synchronous:battery \
             -A "ignore=Ignore until reboot" \
             "Battery Low" "Battery is at ${CAPACITY}%.\nSuspending in ${WARNING_SECONDS} seconds...")
@@ -174,21 +179,26 @@ while true; do
 
         for ((i=WARNING_SECONDS; i>0; i--)); do
             sleep 1
+
             NEW_STATUS=$(cat /sys/class/power_supply/$BAT_PATH/status 2>/dev/null)
             if [ "$NEW_STATUS" != "Discharging" ]; then
                 notify-send -u normal -t 3000 "Suspend Cancelled" "Charger detected."
                 break
             fi
+
             if [ -f "$IGNORE_FILE" ]; then
                 notify-send -u normal -t 3000 "Suspend Cancelled" "Ignored until reboot."
                 break
             fi
+
             if [ $i -eq 1 ]; then
                 loginctl suspend
             fi
         done
+
         sleep 300
     fi
+
     sleep $CHECK_INTERVAL
 done
 EOF
