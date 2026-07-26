@@ -280,7 +280,22 @@ cat > ~/.config/swaync/config.json << 'EOF'
   "fit-to-screen": false,
   "notification-window-width": 300,
   "hide-on-clear": true,
-  "widgets": ["title", "dnd", "notifications"]
+  "widgets": ["title", "dnd", "notifications"],
+  "rules": [
+    {
+      "app-name": "lxqt-panel",
+      "summary": "Removable media/devices manager",
+      "timeout": 3000
+    },
+    {
+      "app-name": "lxqt-panel",
+      "timeout": 3000
+    },
+    {
+      "app-name": "*",
+      "timeout": 2500
+    }
+  ]
 }
 EOF
 ```
