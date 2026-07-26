@@ -300,7 +300,10 @@ EOF
 ### Environment
 
 ```bash
-echo "WLR_RENDERER=vulkan" > ~/.config/labwc/environment
+XCURSOR_THEME=FlatbedCursors-White
+XCURSOR_SIZE=42
+XKB_DEFAULT_LAYOUT=gb
+WLR_RENDERER=vulkan
 ```
 
 ### Core section in `~/.config/labwc/rc.xml`
