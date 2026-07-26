@@ -344,11 +344,25 @@ echo "WLR_RENDERER=vulkan" > ~/.config/labwc/environment
 ### Autostart (`~/.config/labwc/autostart`)
 
 ```bash
-swaync &
-wlr-brightness &
-~/.local/bin/nm-notif-closer.sh &
-~/.local/bin/battery-watch.sh &
+# === labwc + LXQt autostart ===
 
+# Background
+#swaybg -i /usr/share/lxqt/wallpapers/origami-dark-labwc.png >/dev/null 2>&1 &
+
+# GTK environment
+dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY > /dev/null 2>&1 &
+
+# === Display configuration (persistent) ===
+kanshi >/dev/null 2>&1 &
+
+# Idle / screen power management (already good)
+#swayidle -w timeout 300 "wlopm --off *" resume "wlopm --on *" > /dev/null 2>&1 &
+
+wlr-brightness &
+
+swaync &
+
+# Audio defaults (delayed)
 (
   sleep 4
   amixer -D hw:0 set Master unmute
@@ -358,6 +372,10 @@ wlr-brightness &
   amixer -D hw:0 set Headphone unmute
   amixer -D hw:0 set Headphone 100%
 ) > /dev/null 2>&1 &
+
+~/.local/bin/battery-watch.sh &
+
+~/.local/bin/nm-notif-closer.sh &
 ```
 
 ---
