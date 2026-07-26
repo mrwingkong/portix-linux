@@ -43,7 +43,7 @@ mkdir -p ~/.local/bin
 ```bash
 cat > ~/.local/bin/volume-osd.sh << 'EOF'
 #!/bin/bash
-# Volume OSD – uses ALSA Master
+
 ID=2597
 
 case "$1" in
