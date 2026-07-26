@@ -213,6 +213,10 @@ chmod +x ~/.local/bin/battery-watch.sh
 ```bash
 cat > ~/.local/bin/nm-notif-closer.sh << 'EOF'
 #!/bin/bash
+# Auto-close sticky notifications after 3 seconds
+# - NetworkManager Applet (WiFi)
+# - Removable media/devices manager (USB)
+
 dbus-monitor --session "interface='org.freedesktop.Notifications',member=Notify" |
 while read -r line; do
     if echo "$line" | grep -qE 'string "(NetworkManager Applet|Removable media/devices manager)"'; then
