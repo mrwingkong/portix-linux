@@ -296,17 +296,29 @@ cat > ~/.config/swaync/style.css << 'EOF'
   border: 1px solid #555555;
   margin: 8px;
 }
-.notification-content { padding: 12px; }
-.notification .summary { font-weight: bold; font-size: 13px; }
-.notification .body { font-size: 12px; }
+
+.notification-content {
+  padding: 12px;
+}
+
+.notification .summary {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.notification .body {
+  font-size: 12px;
+}
+
 .notification.low, .notification.normal {
   background: #000000;
   color: #ffffff;
   border: 1px solid #555555;
 }
+
 .notification.critical {
-  background: #4a3c00;
-  color: #ffdd57;
+  background: #4a3c00;          /* dark yellow/brown */
+  color: #ffdd57;               /* bright yellow text */
   border: 1px solid #ffdd57;
 }
 EOF
