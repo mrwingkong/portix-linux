@@ -14,3 +14,9 @@ Complete working setup for:
 
 ```bash
 sudo pacman -S swaync brightnessctl wireplumber alsa-utils bc glib2-devel base-devel wayland wlroots
+
+git clone https://github.com/mherzberg/wlr-brightness.git
+cd wlr-brightness
+git submodule update --init --recursive
+make
+sudo make install
