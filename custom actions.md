@@ -14,19 +14,34 @@ A full working configuration for LXQt on Labwc (Wayland) featuring:
 
 ```bash
 sudo pacman -S swaync brightnessctl wireplumber alsa-utils bc glib2-devel base-devel wayland wlroots
+```
 
-2. Build and Install wlr-brightness
-Bashgit clone https://github.com/mherzberg/wlr-brightness.git
+---
+
+## 2. Build and Install wlr-brightness
+
+```bash
+git clone https://github.com/mherzberg/wlr-brightness.git
 cd wlr-brightness
 git submodule update --init --recursive
 make
 sudo make install
+```
 
-3. Create Scripts Directory
-Bashmkdir -p ~/.local/bin
+---
 
-4. Volume Script
-Bashcat > ~/.local/bin/volume-osd.sh << 'EOF'
+## 3. Create Scripts Directory
+
+```bash
+mkdir -p ~/.local/bin
+```
+
+---
+
+## 4. Volume Script
+
+```bash
+cat > ~/.local/bin/volume-osd.sh << 'EOF'
 #!/bin/bash
 # Volume OSD – uses ALSA Master
 ID=2597
@@ -58,9 +73,14 @@ notify-send -r $ID -u low -t 1500 \
 EOF
 
 chmod +x ~/.local/bin/volume-osd.sh
+```
 
-5. Smart Brightness Script
-Bashcat > ~/.local/bin/brightness-osd.sh << 'EOF'
+---
+
+## 5. Smart Brightness Script
+
+```bash
+cat > ~/.local/bin/brightness-osd.sh << 'EOF'
 #!/bin/bash
 # Smart Brightness OSD
 # HDR on  → wlr-brightness (gamma)
@@ -94,9 +114,14 @@ notify-send -r $ID -u low -t 1500 \
 EOF
 
 chmod +x ~/.local/bin/brightness-osd.sh
+```
 
-6. Battery Watcher Script
-Bashcat > ~/.local/bin/battery-watch.sh << 'EOF'
+---
+
+## 6. Battery Watcher Script
+
+```bash
+cat > ~/.local/bin/battery-watch.sh << 'EOF'
 #!/bin/bash
 LOW_LEVEL=5
 WARN_LEVEL=10
@@ -121,7 +146,6 @@ while true; do
         rm -f "$WARNED_10_FILE"
     fi
 
-    # 10% warning
     if [ "$STATUS" = "Discharging" ] && [ "$CAPACITY" -le "$WARN_LEVEL" ] && [ "$CAPACITY" -gt "$LOW_LEVEL" ]; then
         if [ ! -f "$WARNED_10_FILE" ]; then
             notify-send -u normal -t 5000 \
@@ -131,7 +155,6 @@ while true; do
         fi
     fi
 
-    # 5% critical + Ignore button
     if [ "$STATUS" = "Discharging" ] && [ "$CAPACITY" -le "$LOW_LEVEL" ]; then
         ACTION=$(notify-send -u normal -t 0 \
             -h string:x-canonical-private-synchronous:battery \
@@ -167,9 +190,14 @@ done
 EOF
 
 chmod +x ~/.local/bin/battery-watch.sh
+```
 
-7. Sticky Notification Closer (WiFi + USB)
-Bashcat > ~/.local/bin/nm-notif-closer.sh << 'EOF'
+---
+
+## 7. Sticky Notification Closer (WiFi + USB)
+
+```bash
+cat > ~/.local/bin/nm-notif-closer.sh << 'EOF'
 #!/bin/bash
 dbus-monitor --session "interface='org.freedesktop.Notifications',member=Notify" |
 while read -r line; do
@@ -183,15 +211,19 @@ done
 EOF
 
 chmod +x ~/.local/bin/nm-notif-closer.sh
+```
 
-8. HDR Toggle Script
-Bashcat > ~/.local/bin/hdr-toggle.sh << 'EOF'
+---
+
+## 8. HDR Toggle Script
+
+```bash
+cat > ~/.local/bin/hdr-toggle.sh << 'EOF'
 #!/bin/bash
 RC="$HOME/.config/labwc/rc.xml"
 
 if grep -q '<hdr>yes</hdr>' "$RC"; then
     sed -i 's/<hdr>yes<\/hdr>/<hdr>no<\/hdr>/' "$RC"
-    # Reset gamma to full when leaving HDR
     gdbus call -e -d de.mherzberg -o /de/mherzberg/wlrbrightness \
         -m de.mherzberg.wlrbrightness.set 1.0 > /dev/null 2>&1
     notify-send -u normal -t 1500 "HDR" "Disabled – exiting to TTY..."
@@ -205,11 +237,20 @@ labwc --exit
 EOF
 
 chmod +x ~/.local/bin/hdr-toggle.sh
+```
 
-9. Swaync Configuration
-Bashmkdir -p ~/.config/swaync
-config.json
-Bashcat > ~/.config/swaync/config.json << 'EOF'
+---
+
+## 9. Swaync Configuration
+
+```bash
+mkdir -p ~/.config/swaync
+```
+
+### config.json
+
+```bash
+cat > ~/.config/swaync/config.json << 'EOF'
 {
   "$schema": "/usr/share/swaync/configSchema.json",
   "positionX": "right",
@@ -223,8 +264,12 @@ Bashcat > ~/.config/swaync/config.json << 'EOF'
   "widgets": ["title", "dnd", "notifications"]
 }
 EOF
-style.css
-Bashcat > ~/.config/swaync/style.css << 'EOF'
+```
+
+### style.css
+
+```bash
+cat > ~/.config/swaync/style.css << 'EOF'
 .notification {
   background: #000000;
   color: #ffffff;
@@ -246,18 +291,32 @@ Bashcat > ~/.config/swaync/style.css << 'EOF'
   border: 1px solid #ffdd57;
 }
 EOF
+```
 
-10. Labwc Configuration
-Environment file
-Bashecho "WLR_RENDERER=vulkan" > ~/.config/labwc/environment
-Core section in ~/.config/labwc/rc.xml
-XML<core>
+---
+
+## 10. Labwc Configuration
+
+### Environment
+
+```bash
+echo "WLR_RENDERER=vulkan" > ~/.config/labwc/environment
+```
+
+### Core section in `~/.config/labwc/rc.xml`
+
+```xml
+<core>
   <decoration>server</decoration>
   <gap>0</gap>
   <hdr>no</hdr>
 </core>
-Keybinds (place inside the <keyboard> section)
-XML<!-- Volume -->
+```
+
+### Keybinds (inside `<keyboard>`)
+
+```xml
+    <!-- Volume -->
     <keybind key="XF86_AudioLowerVolume">
       <action name="Execute" command="~/.local/bin/volume-osd.sh down" />
     </keybind>
@@ -280,8 +339,12 @@ XML<!-- Volume -->
     <keybind key="W-h">
       <action name="Execute" command="~/.local/bin/hdr-toggle.sh" />
     </keybind>
-Autostart (~/.config/labwc/autostart)
-Bashswaync &
+```
+
+### Autostart (`~/.config/labwc/autostart`)
+
+```bash
+swaync &
 wlr-brightness &
 ~/.local/bin/nm-notif-closer.sh &
 ~/.local/bin/battery-watch.sh &
@@ -295,20 +358,23 @@ wlr-brightness &
   amixer -D hw:0 set Headphone unmute
   amixer -D hw:0 set Headphone 100%
 ) > /dev/null 2>&1 &
+```
 
-11. One-time GUI Settings
+---
 
-Right-click the volume icon → Volume Control Settings
-→ Uncheck “Notify about volume changes with keyboard”
-Power Management → Battery tab
-→ Set “When power is low then” to Suspend
-Removable Media plugin → Turn notifications On
+## 11. One-time GUI Settings
 
+1. Right-click the volume icon → **Volume Control Settings** → Uncheck **“Notify about volume changes with keyboard”**
+2. **Power Management** → Battery tab → Set to **Suspend**
+3. Removable Media plugin → Turn notifications **On**
 
-Important Notes
+---
 
-Press Super + H to toggle HDR. You will be dropped to a clean TTY. Type startlxqt to return.
-In SDR mode you get full native brightness (hardware backlight).
-In HDR mode brightness uses gamma (desktop max is lower, but real HDR content can still peak higher).
-External HDR projectors use the same global HDR toggle.
-Labwc currently lacks an “SDR content brightness” control (unlike KWin).
+## Important Notes
+
+- Press `Super + H` to toggle HDR. You will be dropped to a clean TTY. Type `startlxqt` to return.
+- In **SDR mode** you get full native brightness (hardware backlight).
+- In **HDR mode** brightness uses gamma (desktop max is lower, but real HDR content can still peak higher).
+- External HDR projectors use the same global HDR toggle.
+- Labwc currently lacks an “SDR content brightness” control (unlike KWin).
+
