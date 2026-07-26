@@ -319,7 +319,7 @@ WLR_RENDERER=vulkan
 ### Keybinds (inside `<keyboard>`)
 
 ```xml
-    <!-- Volume -->
+    <!-- Volume keys -->
     <keybind key="XF86_AudioLowerVolume">
       <action name="Execute" command="~/.local/bin/volume-osd.sh down" />
     </keybind>
@@ -329,19 +329,18 @@ WLR_RENDERER=vulkan
     <keybind key="XF86_AudioMute">
       <action name="Execute" command="~/.local/bin/volume-osd.sh mute" />
     </keybind>
-
-    <!-- Brightness -->
+    <!-- Brightness keys -->
     <keybind key="XF86MonBrightnessUp">
       <action name="Execute" command="~/.local/bin/brightness-osd.sh up" />
     </keybind>
     <keybind key="XF86MonBrightnessDown">
       <action name="Execute" command="~/.local/bin/brightness-osd.sh down" />
     </keybind>
-
-    <!-- HDR Toggle -->
+        <!-- HDR Toggle -->
     <keybind key="W-h">
       <action name="Execute" command="~/.local/bin/hdr-toggle.sh" />
     </keybind>
+  </keyboard>
 ```
 
 ### Autostart (`~/.config/labwc/autostart`)
