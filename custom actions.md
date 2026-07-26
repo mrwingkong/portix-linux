@@ -242,6 +242,7 @@ RC="$HOME/.config/labwc/rc.xml"
 
 if grep -q '<hdr>yes</hdr>' "$RC"; then
     sed -i 's/<hdr>yes<\/hdr>/<hdr>no<\/hdr>/' "$RC"
+    # Reset gamma to full before leaving HDR
     gdbus call -e -d de.mherzberg -o /de/mherzberg/wlrbrightness \
         -m de.mherzberg.wlrbrightness.set 1.0 > /dev/null 2>&1
     notify-send -u normal -t 1500 "HDR" "Disabled – exiting to TTY..."
