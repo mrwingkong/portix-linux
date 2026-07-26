@@ -82,24 +82,28 @@ chmod +x ~/.local/bin/volume-osd.sh
 ```bash
 cat > ~/.local/bin/brightness-osd.sh << 'EOF'
 #!/bin/bash
+# ============================================================
 # Smart Brightness OSD
-# HDR on  → wlr-brightness (gamma)
-# HDR off → brightnessctl (real backlight)
+# - HDR on  → uses wlr-brightness (gamma)
+# - HDR off → uses brightnessctl (real backlight)
+# ============================================================
+
 ID=2598
 RC="$HOME/.config/labwc/rc.xml"
 
 if grep -q '<hdr>yes</hdr>' "$RC"; then
-    # HDR mode
+    # ----- HDR mode (gamma) -----
     STEP=0.05
     case "$1" in
         up)   gdbus call -e -d de.mherzberg -o /de/mherzberg/wlrbrightness -m de.mherzberg.wlrbrightness.increase $STEP > /dev/null ;;
         down) gdbus call -e -d de.mherzberg -o /de/mherzberg/wlrbrightness -m de.mherzberg.wlrbrightness.decrease $STEP > /dev/null ;;
     esac
+
     CURRENT=$(gdbus call -e -d de.mherzberg -o /de/mherzberg/wlrbrightness \
         -m de.mherzberg.wlrbrightness.get | grep -oP '[0-9.]+' | head -1)
     PERCENT=$(echo "$CURRENT * 100" | bc | cut -d. -f1)
 else
-    # SDR mode
+    # ----- SDR mode (real backlight) -----
     case "$1" in
         up)   brightnessctl set +5% ;;
         down) brightnessctl set 5%- ;;
