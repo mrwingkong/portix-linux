@@ -1,18 +1,18 @@
 # Tablet Mode Setup for Artix Linux + OpenRC + LXQt + labwc
 
-This guide documents a working tablet-mode setup for a 2-in-1 convertible (tested on Aura X1 / ThinkPad-style device with Intel Core Ultra) running:
+Working tablet-mode configuration for a 2-in-1 convertible (tested on Aura X1 / ThinkPad-style hardware with Intel Core Ultra) running:
 
 - Artix Linux (OpenRC)
 - LXQt
 - labwc (Wayland)
-- Touchscreen + accelerometer + tablet-mode switch
 
-Features achieved:
-- Automatic screen rotation based on orientation
-- Touchscreen calibration follows rotation
-- Physical keyboard + touchpad automatically disabled in tablet mode
-- On-screen keyboard (wvkbd) appears in tablet mode
-- On-screen keyboard disappears in laptop mode
+### Features
+- Automatic screen rotation based on device orientation
+- Touchscreen calibration follows the rotation
+- Physical keyboard and touchpad are disabled in tablet mode (handled by libinput)
+- On-screen keyboard (`wvkbd`) appears automatically when entering tablet mode
+- Panel launcher to show/hide the on-screen keyboard
+- On-screen keyboard is killed when returning to laptop mode
 
 ---
 
@@ -25,7 +25,7 @@ yay -S wvkbd
 
 ---
 
-## 2. Create OpenRC service for iio-sensor-proxy
+## 2. OpenRC service for iio-sensor-proxy
 
 ```bash
 sudo tee /etc/init.d/iio-sensor-proxy > /dev/null << 'EOF'
@@ -45,7 +45,7 @@ sudo rc-update add iio-sensor-proxy default
 sudo rc-service iio-sensor-proxy start
 ```
 
-Test sensors:
+Test the sensors:
 
 ```bash
 monitor-sensor
@@ -53,19 +53,17 @@ monitor-sensor
 
 ---
 
-## 3. Auto-rotation script
-
-Create the script:
+## 3. Auto-rotation + touch calibration script
 
 ```bash
 mkdir -p ~/.local/bin
 
 cat > ~/.local/bin/2in1screen << 'EOF'
 #!/bin/bash
-OUTPUT="eDP-1"          # Change if your internal display has a different name
+OUTPUT="eDP-1"          # Change if your internal display name is different
 RC="$HOME/.config/labwc/rc.xml"
 
-# Ensure calibrationMatrix exists
+# Ensure a calibrationMatrix exists
 if [ ! -f "$RC" ]; then
     mkdir -p "$(dirname "$RC")"
     cat > "$RC" << 'EORC'
@@ -81,6 +79,171 @@ EORC
 elif ! grep -q calibrationMatrix "$RC"; then
     sed -i '/<\/labwc_config>/i\  <libinput>\n    <device>\n      <calibrationMatrix>1 0 0 0 1 0</calibrationMatrix>\n    </device>\n  </libinput>' "$RC"
 fi
+
+monitor-sensor | while read -r line; do
+    case "$line" in
+        *normal*)
+            wlr-randr --output "$OUTPUT" --transform normal
+            sed -i 's|<calibrationMatrix>.*</calibrationMatrix>|<calibrationMatrix>1 0 0 0 1 0</calibrationMatrix>|' "$RC"
+            labwc -r
+            ;;
+        *left-up*)
+            wlr-randr --output "$OUTPUT" --transform 90
+            sed -i 's|<calibrationMatrix>.*</calibrationMatrix>|<calibrationMatrix>0 -1 1 1 0 0</calibrationMatrix>|' "$RC"
+            labwc -r
+            ;;
+        *right-up*)
+            wlr-randr --output "$OUTPUT" --transform 270
+            sed -i 's|<calibrationMatrix>.*</calibrationMatrix>|<calibrationMatrix>0 1 0 -1 0 1</calibrationMatrix>|' "$RC"
+            labwc -r
+            ;;
+        *bottom-up*)
+            wlr-randr --output "$OUTPUT" --transform 180
+            sed -i 's|<calibrationMatrix>.*</calibrationMatrix>|<calibrationMatrix>-1 0 1 0 -1 1</calibrationMatrix>|' "$RC"
+            labwc -r
+            ;;
+    esac
+done
+EOF
+
+chmod +x ~/.local/bin/2in1screen
+```
+
+---
+
+## 4. On-screen keyboard toggle script + desktop entry
+
+```bash
+cat > ~/.local/bin/osk-toggle << 'EOF'
+#!/bin/bash
+# Toggle the on-screen keyboard
+if pgrep -x wvkbd-mobintl >/dev/null; then
+    pkill -x wvkbd-mobintl -RTMIN
+else
+    wvkbd-mobintl -H 280 -L 220 &
+fi
+EOF
+
+chmod +x ~/.local/bin/osk-toggle
+```
+
+Create the desktop entry:
+
+```bash
+mkdir -p ~/.local/share/applications
+
+cat > ~/.local/share/applications/osk-toggle.desktop << 'EOF'
+[Desktop Entry]
+Name=On-Screen Keyboard
+Comment=Show / Hide on-screen keyboard
+Exec=/home/mrwingkong/.local/bin/osk-toggle
+Icon=input-keyboard
+Terminal=false
+Type=Application
+Categories=Utility;
+EOF
+
+update-desktop-database ~/.local/share/applications
+```
+
+**Add it to the LXQt panel:**
+
+1. Open the LXQt application menu
+2. Search for **On-Screen Keyboard**
+3. Right-click it → **Add to panel**  
+   (or drag it onto the panel)
+
+Alternatively:
+- Right-click panel → Configure Panel → Widgets
+- Add a **Launchers** widget if needed
+- Click **+** and select **On-Screen Keyboard**
+
+---
+
+## 5. Tablet-mode detection script
+
+```bash
+cat > ~/.local/bin/tablet-mode << 'EOF'
+#!/bin/bash
+
+OSK="wvkbd-mobintl"
+OPTS="-H 280 -L 220"          # Keyboard starts visible
+
+sleep 2
+
+libinput debug-events | while read -r line; do
+    if echo "$line" | grep -q "tablet-mode state 1"; then
+        pkill -x "$OSK"
+        sleep 0.4
+        $OSK $OPTS &
+    elif echo "$line" | grep -q "tablet-mode state 0"; then
+        pkill -x "$OSK"
+    fi
+done
+EOF
+
+chmod +x ~/.local/bin/tablet-mode
+```
+
+---
+
+## 6. Autostart
+
+Edit (or create) the labwc autostart file:
+
+```bash
+mkdir -p ~/.config/labwc
+nano ~/.config/labwc/autostart
+```
+
+Add these two lines:
+
+```bash
+~/.local/bin/2in1screen &
+~/.local/bin/tablet-mode &
+```
+
+Reload labwc:
+
+```bash
+labwc -r
+```
+
+---
+
+## 7. Optional: Add user to the input group
+
+```bash
+sudo usermod -aG input $USER
+```
+
+Log out and back in (or reboot) so the group becomes active.  
+After that the tablet-mode script can run without any special privileges.
+
+---
+
+## 8. Testing
+
+- Rotate the device → screen and touchscreen should follow orientation.
+- Fold fully into tablet mode → on-screen keyboard appears automatically.
+- Click the panel icon → keyboard hides / shows.
+- Unfold to laptop mode → on-screen keyboard is killed.
+
+---
+
+## Notes / Tweaks
+
+- Change `eDP-1` in the rotation script if `wlr-randr` shows a different name for the internal display.
+- Adjust the height values (`-H` for portrait, `-L` for landscape) in both the tablet-mode script and the toggle script.
+- You can replace `wvkbd-mobintl` with `wvkbd-deskintl` if you prefer that layout.
+- labwc has no animations, so rotation is instantaneous.
+
+---
+
+## Credits
+
+Developed and tested on Artix Linux + OpenRC + LXQt + labwc with a 2-in-1 convertible (Aura X1 / similar ThinkPad-style hardware).
+```fi
 
 monitor-sensor | while read -r line; do
     case "$line" in
