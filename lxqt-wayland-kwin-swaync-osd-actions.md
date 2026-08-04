@@ -17,7 +17,7 @@ kwin kscreen kscreenlocker plasma-desktop systemsettings powerdevil layer-shell-
 swaync libnotify
 
 # Volume & Brightness tools
-brightnessctl pamixer pipewire pipewire-pulse wireplumber
+brightnessctl pipewire pipewire-pulse wireplumber alsa-utils
 
 # Keybinding daemon
 sxhkd
@@ -45,7 +45,9 @@ EOF
 
 ## 3. OSD Scripts
 
-### Volume (hard limit at 100%)
+### Volume (smooth 5 % steps, hard limit 100 %)
+
+Uses `wpctl` (WirePlumber). This is the control that actually changes the audible volume.
 
 ```bash
 mkdir -p ~/.local/bin
@@ -53,7 +55,6 @@ mkdir -p ~/.local/bin
 cat > ~/.local/bin/volume-osd.sh << 'EOF'
 #!/bin/bash
 ID=2597
-
 case "$1" in
     up)
         wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
@@ -65,6 +66,17 @@ case "$1" in
         ;;
     mute)
         wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+        ;;
+    set)
+        VAL="$2"
+        [[ "$VAL" =~ ^[0-9]+$ ]] || exit 1
+        [ "$VAL" -gt 100 ] && VAL=100
+        [ "$VAL" -lt 0 ] && VAL=0
+        wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ "${VAL}%"
+        ;;
+    *)
+        exit 0
         ;;
 esac
 
@@ -86,15 +98,15 @@ EOF
 chmod +x ~/.local/bin/volume-osd.sh
 ```
 
-### Brightness (SDR + HDR – adaptive steps, full peak unlock)
+### Brightness (SDR + HDR – adaptive steps, true peak, accurate 0–100 %)
 
-This script provides:
+Features:
 
-- **SDR**: real backlight control via `brightnessctl` with fine steps at low brightness
+- **SDR**: real backlight via `brightnessctl`, fine 1–2 % steps at the low end, true 0 % = off
 - **HDR**: overall brightness % + unlocked high `sdr-brightness` (real panel peak)
-- Separate memory for SDR / HDR so switching modes restores the last value
-- Smooth adaptive step sizes (1 % at the bottom → larger steps higher up)
-- 0 % maps to the darkest level KWin allows in HDR
+- Separate memory for SDR / HDR so mode switches restore the last value
+- Adaptive step sizes (finer near 0 %, larger higher up) so 0→100 does not take forever
+- `set <percent>` supported for absolute values
 
 ```bash
 cat > ~/.local/bin/brightness-osd.sh << 'EOF'
@@ -148,6 +160,10 @@ if kscreen-doctor -o 2>/dev/null | grep -A20 "$OUTPUT" | grep -q "SDR brightness
             else                            NEW=$((CURRENT - 5))
             fi
             ;;
+        set)
+            NEW="$2"
+            [[ "$NEW" =~ ^[0-9]+$ ]] || exit 1
+            ;;
         *) exit 0 ;;
     esac
 
@@ -187,6 +203,13 @@ else
             else                            brightnessctl set 5%-
             fi
             ;;
+        set)
+            NEW="$2"
+            [[ "$NEW" =~ ^[0-9]+$ ]] || exit 1
+            [ "$NEW" -lt 0 ] && NEW=0
+            [ "$NEW" -gt 100 ] && NEW=100
+            brightnessctl set "${NEW}%"
+            ;;
         *) exit 0 ;;
     esac
 
@@ -206,17 +229,61 @@ EOF
 chmod +x ~/.local/bin/brightness-osd.sh
 ```
 
-> **Important notes**
->
-> - Change `OUTPUT="eDP-1"` if `kscreen-doctor -o` shows a different connector name.
-> - Adjust `HIGH_SDR=` to match your panel (see section 10 below).
-> - In HDR, absolute 0 % is the darkest KWin currently allows (extremely faint residual light is common on laptop panels). True hardware-off is still limited by KWin’s HDR path.
+---
+
+## 4. ALSA Speaker / Headphone Defaults
+
+On many Intel sof-hda laptops the LXQt volume mixer shows three ALSA channels:
+
+- `Master`
+- `Speaker`
+- `Headphone`
+
+Desired behaviour:
+
+- **Speaker** and **Headphone** always sit at **100 %** (hardware path full open)
+- Real audible volume is controlled only by the keyboard OSD (`wpctl`)
+- On headphone jack plug, Headphone is forced back to 100 % if the driver resets it
+
+### Boot reset
+
+```bash
+cat > ~/.local/bin/volume-reset.sh << 'EOF'
+#!/bin/bash
+sleep 5
+amixer -c 0 -q sset Speaker 100%
+amixer -c 0 -q sset Headphone 100%
+amixer -c 0 -q sset Master 0%
+wpctl set-volume @DEFAULT_AUDIO_SINK@ 0% 2>/dev/null
+wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 2>/dev/null
+EOF
+chmod +x ~/.local/bin/volume-reset.sh
+```
+
+### Jack watcher (re-apply Headphone / Speaker 100 % on plug events)
+
+```bash
+cat > ~/.local/bin/headphone-fix.sh << 'EOF'
+#!/bin/bash
+# Only touches ALSA hardware channels. Never changes the real wpctl volume.
+pactl subscribe 2>/dev/null | while read -r line; do
+    case "$line" in
+        *change*|*new*)
+            sleep 0.5
+            amixer -c 0 -q sset Headphone 100%
+            amixer -c 0 -q sset Speaker 100%
+            ;;
+    esac
+done
+EOF
+chmod +x ~/.local/bin/headphone-fix.sh
+```
 
 ---
 
-## 4. Brightness Mode Watcher
+## 5. Brightness Mode Watcher (HDR ↔ SDR memory)
 
-Automatically restores the last used brightness when you switch between HDR and SDR in System Settings.
+Restores the last used brightness when the display switches between HDR and SDR.
 
 ```bash
 cat > ~/.local/bin/brightness-mode-watcher.sh << 'EOF'
@@ -224,7 +291,6 @@ cat > ~/.local/bin/brightness-mode-watcher.sh << 'EOF'
 OUTPUT="eDP-1"
 HDR_STATE="/tmp/brightness-hdr"
 SDR_STATE="/tmp/brightness-sdr"
-HIGH_SDR=560                    # Keep in sync with brightness-osd.sh
 LAST_MODE=""
 
 while true; do
@@ -234,70 +300,62 @@ while true; do
         MODE="sdr"
     fi
 
-    if [ "$MODE" != "$LAST_MODE" ]; then
-        if [ "$MODE" = "hdr" ]; then
-            TARGET=$(cat "$HDR_STATE" 2>/dev/null || echo 50)
-            if [ "$TARGET" -eq 0 ]; then
-                kscreen-doctor output.${OUTPUT}.brightness.0 >/dev/null 2>&1
-                kscreen-doctor output.${OUTPUT}.sdr-brightness.50 >/dev/null 2>&1
-            else
-                kscreen-doctor output.${OUTPUT}.sdr-brightness.${HIGH_SDR} >/dev/null 2>&1
-                kscreen-doctor output.${OUTPUT}.brightness.${TARGET} >/dev/null 2>&1
-            fi
-        else
-            TARGET=$(cat "$SDR_STATE" 2>/dev/null || echo 20)
-            brightnessctl set ${TARGET}% >/dev/null 2>&1
+    if [ "$MODE" != "$LAST_MODE" ] && [ -n "$LAST_MODE" ]; then
+        if [ "$MODE" = "hdr" ] && [ -f "$HDR_STATE" ]; then
+            ~/.local/bin/brightness-osd.sh set "$(cat "$HDR_STATE")"
+        elif [ "$MODE" = "sdr" ] && [ -f "$SDR_STATE" ]; then
+            ~/.local/bin/brightness-osd.sh set "$(cat "$SDR_STATE")"
         fi
-        LAST_MODE="$MODE"
     fi
-
+    LAST_MODE="$MODE"
     sleep 2
 done
 EOF
-
 chmod +x ~/.local/bin/brightness-mode-watcher.sh
 ```
 
 ---
 
-## 5. sxhkd Keybinds
+## 6. sxhkd Keybindings
 
 ```bash
 mkdir -p ~/.config/sxhkd
 
-cat > ~/.config/sxhkd/sxhkdrc << 'EOF'
+# Append or merge these lines into ~/.config/sxhkd/sxhkdrc
+cat >> ~/.config/sxhkd/sxhkdrc << 'EOF'
+
+# Volume
 XF86AudioRaiseVolume
     ~/.local/bin/volume-osd.sh up
-
 XF86AudioLowerVolume
     ~/.local/bin/volume-osd.sh down
-
 XF86AudioMute
     ~/.local/bin/volume-osd.sh mute
 
+# Brightness
 XF86MonBrightnessUp
     ~/.local/bin/brightness-osd.sh up
-
 XF86MonBrightnessDown
     ~/.local/bin/brightness-osd.sh down
 EOF
 ```
 
+Reload:
+
+```bash
+killall sxhkd ; sxhkd &
+```
+
+> **Note:** While an LXQt volume dropdown is open, media keys may be blocked by KWin focus grab. This is normal. Close the dropdown or use the panel slider.
+
 ---
 
-## 6. Autostart Entries
+## 7. Autostart Entries
 
 ```bash
 mkdir -p ~/.config/autostart
 
-cat > ~/.config/autostart/swaync.desktop << 'EOF'
-[Desktop Entry]
-Type=Application
-Name=SwayNC
-Exec=swaync
-X-GNOME-Autostart-enabled=true
-EOF
-
+# sxhkd
 cat > ~/.config/autostart/sxhkd.desktop << 'EOF'
 [Desktop Entry]
 Type=Application
@@ -306,75 +364,57 @@ Exec=sxhkd
 X-GNOME-Autostart-enabled=true
 EOF
 
-cat > ~/.config/autostart/powerdevil.desktop << 'EOF'
+# swaync
+cat > ~/.config/autostart/swaync.desktop << 'EOF'
 [Desktop Entry]
 Type=Application
-Name=PowerDevil
-Exec=/usr/lib/org_kde_powerdevil
+Name=swaync
+Exec=swaync
 X-GNOME-Autostart-enabled=true
 EOF
 
-cat > ~/.config/autostart/brightness-watcher.desktop << 'EOF'
+# Brightness mode watcher
+cat > ~/.config/autostart/brightness-mode-watcher.desktop << 'EOF'
 [Desktop Entry]
 Type=Application
 Name=Brightness Mode Watcher
-Exec=/home/%u/.local/bin/brightness-mode-watcher.sh
+Exec=/home/USER/.local/bin/brightness-mode-watcher.sh
 X-GNOME-Autostart-enabled=true
+NoDisplay=true
+EOF
+
+# Volume reset (Speaker/Headphone 100 %, real volume 0 %)
+cat > ~/.config/autostart/volume-reset.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=Volume Reset
+Exec=/home/USER/.local/bin/volume-reset.sh
+X-GNOME-Autostart-enabled=true
+NoDisplay=true
+EOF
+
+# Headphone jack fixer
+cat > ~/.config/autostart/headphone-fix.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=Headphone Volume Fix
+Exec=/home/USER/.local/bin/headphone-fix.sh
+X-GNOME-Autostart-enabled=true
+NoDisplay=true
 EOF
 ```
 
----
-
-## 7. Important: Disable PowerDevil Brightness Shortcuts
-
-PowerDevil must stay running for idle timeout, lock screen, battery management, etc.
-
-But we must stop it from handling the brightness keys.
-
-1. Open **System Settings → Shortcuts**
-2. Search for **brightness**
-3. Set these to **None**:
-   - Increase Screen Brightness
-   - Decrease Screen Brightness
-   - Increase Screen Brightness by 1%
-   - Decrease Screen Brightness by 1%
+Replace `USER` with your username (or use `$HOME` expansion if you prefer).
 
 ---
 
-## 8. Final Result
+## 8. Panel Peak Tuning (HDR)
 
-| Feature                    | Behaviour                                              |
-|---------------------------|--------------------------------------------------------|
-| Volume keys               | Controlled by script + swaync OSD (hard limit 100 %)  |
-| Brightness keys (SDR)     | Real backlight via `brightnessctl`, fine low-end steps|
-| Brightness keys (HDR)     | Overall brightness % + unlocked panel peak            |
-| 0 % in HDR                | Darkest level KWin currently allows                   |
-| 100 % in HDR              | Near real hardware peak (tunable via `HIGH_SDR`)      |
-| Mode switching (HDR↔SDR)  | Automatically restores last used value                |
-| PowerDevil                | Still handles idle, lock, battery, lid close          |
-| Notifications             | Consistent look via swaync                            |
-
----
-
-## 9. Restart Services (current session)
+Find your panel’s real peak:
 
 ```bash
-killall sxhkd swaync brightness-mode-watcher.sh 2>/dev/null
-swaync &
-sxhkd &
-~/.local/bin/brightness-mode-watcher.sh &
-```
-
-After logout / login everything starts automatically.
-
----
-
-## 10. Finding Your Panel’s Peak Brightness (recommended)
-
-While HDR is **enabled**, run:
-
-```bash
-kscreen-doctor -o | grep -A40 eDP-1
+# Enable HDR first, then:
+kscreen-doctor -o | grep -A25 eDP-1
 ```
 
 Look for:
@@ -382,23 +422,65 @@ Look for:
 ```
 Peak brightness: 604 nits
 Max average brightness: 497 nits
-Min brightness: 0.0004 nits
 ```
 
-Then set `HIGH_SDR` in both scripts to roughly 90–95 % of the Peak value (e.g. 560 for a 604-nit panel).
+Set `HIGH_SDR` in `brightness-osd.sh` to roughly **90–95 % of Peak** (e.g. 560 for a 604-nit panel). Too high can clip; too low wastes headroom.
 
-You can also inspect the raw EDID (manufacturer / model) with:
+Optional one-shot unlock of the floor:
 
 ```bash
-# Requires v4l-utils (or edid-decode)
-edid-decode /sys/class/drm/card*-eDP-1/edid 2>/dev/null | head -60
+kscreen-doctor output.eDP-1.minBrightnessOverride.0
 ```
 
 ---
 
-## 11. Tips & Known Limitations
+## 9. Orientation Wallpaper (optional)
 
-- **True black in HDR**: KWin on laptop panels currently cannot fully extinguish the backlight even at 0 %. The residual glow is a compositor limitation, not a hardware one (LabWC gamma could go fully black on the same panel).
-- **Peak unlock**: Raising `sdr-brightness` is what actually unlocks the high nits; the overall brightness percentage then scales from that peak.
-- **State files**: `/tmp/brightness-hdr` and `/tmp/brightness-sdr` are cleared on reboot (intentional). Values are restored on the next key press.
-- **Multiple outputs**: Change `OUTPUT=` if you use an external monitor as primary.
+If you use different wallpapers for landscape / portrait (convertible tablet mode):
+
+```bash
+# See the companion script lxqt-orientation-wallpaper.sh
+# It switches wallpaper based on screen width vs height.
+```
+
+---
+
+## 10. Notes & Known Limitations
+
+| Topic | Behaviour |
+|-------|-----------|
+| Volume OSD | Smooth 5 % steps via `wpctl`. Hard ceiling 100 %. |
+| ALSA Speaker / Headphone | Forced to 100 % on boot and on jack events so hardware path stays open. |
+| Brightness SDR | True 0 % = backlight off. Fine steps at low end. |
+| Brightness HDR | 0 % = darkest KWin allows; 100 % uses unlocked panel peak (`HIGH_SDR`). |
+| Mode memory | Switching HDR ↔ SDR restores the last brightness used in that mode. |
+| LXQt volume dropdown open | Media keys may be blocked by KWin until the popup is closed. |
+| Global shortcut service | Incomplete on pure LXQt + KWin + OpenRC; sxhkd is the reliable method. |
+| Tablet floating controls | Experimental; not included in this stable guide. |
+
+---
+
+## 11. Quick Verification
+
+```bash
+# Volume
+~/.local/bin/volume-osd.sh up
+~/.local/bin/volume-osd.sh down
+
+# Brightness
+~/.local/bin/brightness-osd.sh up
+~/.local/bin/brightness-osd.sh down
+~/.local/bin/brightness-osd.sh set 40
+
+# ALSA levels
+amixer -c 0 sget Speaker
+amixer -c 0 sget Headphone
+amixer -c 0 sget Master
+
+# Current PipeWire volume
+wpctl get-volume @DEFAULT_AUDIO_SINK@
+```
+
+---
+
+*Last updated: August 2026 – Artix / OpenRC + LXQt + KWin Wayland*
