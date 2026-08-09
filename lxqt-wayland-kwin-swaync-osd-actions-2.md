@@ -16,10 +16,7 @@ This is the final remastered guide matching the scripts currently in use.
 ## 1. Required Packages
 
 ```bash
-sudo pacman -S lxqt lxqt-wayland-session kwin kscreen kscreenlocker \
-  plasma-desktop systemsettings powerdevil layer-shell-qt \
-  swaync libnotify brightnessctl pipewire pipewire-pulse wireplumber \
-  sxhkd iio-sensor-proxy alsa-utils
+sudo pacman -S lxqt lxqt-wayland-session kwin kscreen kscreenlocker plasma-desktop systemsettings powerdevil layer-shell-qt swaync libnotify brightnessctl pipewire pipewire-pulse wireplumber sxhkd iio-sensor-proxy alsa-utils
 ```
 
 Optional but useful:
