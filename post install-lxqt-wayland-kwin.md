@@ -7,7 +7,7 @@ rankmirrors /etc/pacman.d/mirrorlist-artix > /etc/pacman.d/mirrorlist
 ```
 ## Packages for custom setup including display and system tools for a more fully functional desktop + extra's
 ```
-libnotify wlr-randr kanshi swaybg libarchive libstatgrab git wget unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools dosfstools qt6-tools squashfs-tools sed mujs clang cmake ninja qemu-base libbsd
+libnotify brightnessctl sxhkd iio-sensor-proxy qt6-tools xdg-dektop-portal xdg-desktop-portal-kde libarchive libstatgrab git wget unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools squashfs-tools sed mujs clang cmake ninja qemu-base libbsd
 ```
 ## AUR package installations - yay AUR helper
 ```
@@ -16,11 +16,7 @@ cd yay
 makepkg -si
 cd ~
 ```
-For wdisplays to be persistent and save configurations, kanshi needs to be installed and a initial config in place
-```
 yay -S brave-bin
-yay -S wdisplays-persistent
-yay -S labwc-teaks-git
 ```
 ## Copy paste between host and virtual management specifically 'gnome boxes'
 ```
