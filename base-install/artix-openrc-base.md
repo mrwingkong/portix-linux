@@ -167,4 +167,4 @@ NoDisplay=true
 X-GNOME-Autostart-enabled=true
 EOF
 ```
-Logout / Reboot for a fully fucntional Artix Openrc LXQT Wayland Desktop - See portix-linux folders for additional post installation projects / fixes & workarounds.
+Logout / Reboot for a fully functional Artix openrc LXQT wayland Desktop - See portix-linux folders for additional post installation projects / fixes & workarounds.
