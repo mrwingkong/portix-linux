@@ -17,8 +17,7 @@ KWin offers better HDR support and tighter integration with Plasma components (P
 ### Critical first steps
 
 ```bash
-sudo pacman -S --needed sxhkd brightnessctl swaync libnotify \
-  pipewire pipewire-pulse wireplumber alsa-utils kscreen
+sudo pacman -S --needed sxhkd brightnessctl swaync libnotify pipewire pipewire-pulse wireplumber alsa-utils kscreen
 
 sudo usermod -aG video $USER
 
