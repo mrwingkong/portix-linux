@@ -1,6 +1,10 @@
-# portix-linux
-Artix OpenRC Linux with LXQT Wayland Desktop - using LabWC as compositor
+# Portix Linux
 
-Includes custom scripts & workarounds for lxqt wayland issues and adaption of pman squashfs package management, inspiration taken from porteus linux. 
+Artix OpenRC + LXQt Wayland desktop.
 
-Please Note: This is a personal linux project therefore extra packages are included specfically for own hardware requirements, coding & app development etc. 
+Two compositor options are documented:
+
+- **[LabWC](labwc/)** – lighter, more manual control
+- **[KWin](kwin/)** – better HDR / Plasma integration
+
+Start with the [Base Install](base-install/).
