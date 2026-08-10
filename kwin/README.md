@@ -23,7 +23,6 @@ sudo pacman -S --needed sxhkd brightnessctl swaync libnotify pipewire pipewire-p
 sudo usermod -aG video $USER
 ```
 ```
-```
 Log out and back in after adding yourself to the video group.
 Also disable PowerDevil brightness shortcuts:
 
