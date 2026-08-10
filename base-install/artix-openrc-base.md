@@ -1,5 +1,5 @@
 ## Artix OpenRC Linux with LXQt Wayland desktop & labwc compositor
-Artix base artix-base-openrc-20260402-x86_64.iso
+Artix stable base [artix-base-openrc-20260402-x86_64.iso]
 ## 0. check disk names
 ```
 lsblk
