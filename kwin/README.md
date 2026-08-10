@@ -22,14 +22,12 @@ sudo pacman -S --needed sxhkd brightnessctl swaync libnotify \
 
 sudo usermod -aG video $USER
 
-## Log out and back in
-
+Log out and back in after adding yourself to the video group.
 Also disable PowerDevil brightness shortcuts:
 
-1. Open **System Settings → Shortcuts**
-2. Search for `brightness`
-3. Set the four screen brightness actions to **None**
+Open System Settings → Shortcuts
+Search for brightness
+Set the four screen brightness actions to None
 
-### Before you start
-
-Make sure you have completed the KWin base install from the `base-install/` folder first.
+Before you start
+Make sure you have completed the KWin base install from the base-install/ folder first.
