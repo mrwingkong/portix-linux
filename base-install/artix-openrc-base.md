@@ -167,4 +167,4 @@ NoDisplay=true
 X-GNOME-Autostart-enabled=true
 EOF
 ```
-Then log out / reboot → audio should work
+Logout / Reboot for a fully fucntional Artix Openrc LXQT Wayland Desktop - See portix-linux folders for additional post installation projects / fixes & workarounds.
