@@ -7,7 +7,7 @@ rankmirrors /etc/pacman.d/mirrorlist-artix > /etc/pacman.d/mirrorlist
 ```
 ## Packages for custom setup including display and system tools for a more fully functional desktop + extra's
 ```
-qt6-tools xdg-desktop-portal xdg-desktop-portal-kde swaybg swaync libnotify brightnessctl sxhkd iio-sensor-proxy python-pyqt6 libarchive libstatgrab git wget unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools squashfs-tools sed mujs clang cmake ninja qemu-base libbsd
+fprintd qt6-tools xdg-desktop-portal xdg-desktop-portal-kde swaybg swaync libnotify brightnessctl sxhkd iio-sensor-proxy python-pyqt6 libarchive libstatgrab git wget unzip xz btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools squashfs-tools sed mujs clang cmake ninja qemu-base libbsd
 ```
 ## AUR package installations - yay AUR helper
 ```
