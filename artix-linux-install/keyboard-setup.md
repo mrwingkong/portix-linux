@@ -1,159 +1,84 @@
-# Set UK Keyboard Layout as Default – LXQt + KWin Wayland
+# Set UK Keyboard Layout as Default – Artix OpenRC + LXQt + KWin
 
-Under LXQt + KWin Wayland the normal “Keyboard” settings page often cannot set a persistent UK layout. Use the methods below instead.
+Simple guide for pure **OpenRC** (no systemd / no `localectl`).
 
-UK layout code = **`gb`**
-
----
-
-## 1. System-wide (recommended)
-
-```bash
-sudo localectl set-x11-keymap gb
-sudo localectl set-keymap uk
-```
-
-Check:
-
-```bash
-localectl status
-```
-
-You should see something like:
-
-```
-X11 Layout: gb
-VC Keymap: uk
-```
+UK layout code = **`gb`** (console keymap = **`uk`**)
 
 ---
 
-## 2. KWin / Plasma keyboard config
-
-```bash
-# Create or edit the KDE keyboard config
-mkdir -p ~/.config
-
-cat > ~/.config/kxkbrc << 'EOF'
-[Layout]
-DisplayNames=
-LayoutList=gb
-LayoutLoopCount=-1
-Model=pc105
-ResetOldOptions=false
-ShowFlag=false
-ShowLabel=true
-ShowLayoutIndicator=true
-ShowSingle=false
-SwitchMode=Global
-Use=true
-VariantList=
-EOF
-```
-
-Also set it in kwinrc:
-
-```bash
-kwriteconfig6 --file kwinrc --group Layout --key LayoutList gb
-kwriteconfig6 --file kwinrc --group Layout --key Use 1
-```
-
----
-
-## 3. Environment variables (forces layout for Wayland)
-
-Create a session environment file:
-
-```bash
-mkdir -p ~/.config/environment.d
-
-cat > ~/.config/environment.d/keyboard.conf << 'EOF'
-XKB_DEFAULT_LAYOUT=gb
-XKB_DEFAULT_MODEL=pc105
-XKB_DEFAULT_OPTIONS=
-EOF
-```
-
-Or system-wide:
-
-```bash
-sudo tee /etc/environment.d/keyboard.conf << 'EOF'
-XKB_DEFAULT_LAYOUT=gb
-XKB_DEFAULT_MODEL=pc105
-EOF
-```
-
----
-
-## 4. Console / TTY layout
+## 1. Console / TTY
 
 ```bash
 sudo nano /etc/vconsole.conf
 ```
 
-Set:
+Set the file to:
 
 ```
 KEYMAP=uk
-XKBLAYOUT=gb
 ```
+
+Save and exit.
 
 ---
 
-## 5. Apply immediately (current session)
+## 2. Graphical session (KWin Wayland + XWayland)
 
 ```bash
-# May work for XWayland apps
-setxkbmap gb
+mkdir -p ~/.config/environment.d
 
-# For pure Wayland the most reliable way is to log out and back in
+cat > ~/.config/environment.d/00-keyboard.conf << 'EOT'
+XKB_DEFAULT_LAYOUT=gb
+XKB_DEFAULT_MODEL=pc105
+EOT
 ```
 
 ---
 
-## 6. Verify
+## 3. KWin layout config
 
 ```bash
-# Current XKB layout (if available)
-setxkbmap -query
-
-# localectl
-localectl status
-
-# Test the keys: try " (shift+2) and @ (shift+') – on UK they are swapped vs US
+cat > ~/.config/kxkbrc << 'EOT'
+[Layout]
+LayoutList=gb
+Use=true
+EOT
 ```
 
 ---
 
-## 7. Optional – UK Extended (for accents)
+## 4. Apply
 
-If you need dead keys for Welsh / Gaelic / other accents:
+Log out and log back in (or reboot).
+
+---
+
+## 5. Test
+
+After login, check that these keys produce UK symbols:
+
+| Key          | Expected |
+|--------------|----------|
+| Shift + 2    | `"`      |
+| Shift + '    | `@`      |
+| `#` key      | `#`      |
+
+Optional check:
 
 ```bash
-sudo localectl set-x11-keymap gb pc105 ''
-# or with variant if available:
-# sudo localectl set-x11-keymap gb pc105 extd
+setxkbmap -query 2>/dev/null || echo "setxkbmap not available (normal on pure Wayland)"
 ```
 
-Most users only need plain `gb`.
-
 ---
 
-## 8. After changes
-
-**Log out and log back in** (or reboot) so KWin picks up the new layout.
-
----
-
-## Summary of files touched
+## Files changed
 
 | File | Purpose |
 |------|---------|
-| `localectl` | System X11 + console keymap |
-| `~/.config/kxkbrc` | KDE / KWin layout list |
-| `~/.config/environment.d/keyboard.conf` | Wayland XKB default |
-| `/etc/vconsole.conf` | TTY / console |
+| `/etc/vconsole.conf` | TTY / console keymap |
+| `~/.config/environment.d/00-keyboard.conf` | Wayland + XWayland default layout |
+| `~/.config/kxkbrc` | KWin layout list |
 
 ---
 
-*Works on Artix / Arch with LXQt + KWin Wayland when the GUI keyboard settings do not stick.*
+*Artix OpenRC + LXQt + KWin Wayland – no systemd tools required.*
