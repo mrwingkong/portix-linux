@@ -1,3 +1,16 @@
+# Disable LXQt notification daemon so swaync owns the bus
+killall lxqt-notificationd 2>/dev/null
+mkdir -p ~/.config/autostart
+cat > ~/.config/autostart/lxqt-notificationd.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=LXQt Notification Daemon
+Exec=lxqt-notificationd
+Hidden=true
+X-GNOME-Autostart-enabled=false
+EOF
+
+
 # SwayNC Setup for LXQt + KWin Wayland
 
 Lightweight notification daemon that provides consistent OSD notifications for volume, brightness, battery, etc.
