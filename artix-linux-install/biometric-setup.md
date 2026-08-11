@@ -163,6 +163,25 @@ sudo true
 
 # Or log out and try logging in with your finger
 ```
+##Fingerprint at login (graphical + TTY) only covers the login PAM stack.
+Inside an already-logged-in session, the terminal uses different PAM files — mainly sudo (and sometimes su / polkit).
+Make fingerprint work for sudo in the terminal
+```
+sudo -k          # clear cached credentials
+sudo true        # should ask for fingerprint, not only password
+```
+If it’s missing, add it:
+```
+sudo nano /etc/pam.d/sudo
+```
+Put this at the very top of the file (first auth line)
+```
+auth      sufficient    pam_fprintd.so
+```
+sudo -k          # clear cached credentials
+sudo true        # should ask for fingerprint, not only password
+
+
 
 ---
 
