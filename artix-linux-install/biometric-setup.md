@@ -1,61 +1,78 @@
-# Fingerprint Reader Setup (fprintd) – Artix / Arch + LXQt
+# Fingerprint Reader Setup – Artix OpenRC + LXQt
 
-Complete guide for enrolling multiple fingers and enabling fingerprint authentication for login, sudo, and polkit.
+Simple guide for pure **OpenRC** (no systemd).
 
 ---
 
-## 1. Install packages
+## 1. Install
 
 ```bash
 sudo pacman -S fprintd
 ```
 
-Optional (if your reader needs extra drivers):
-
-```bash
-# Only if your device is not detected
-# Check: lsusb | grep -i finger
-```
-
-Start the daemon (Artix has no OpenRC service by default):
-
-```bash
-sudo /usr/lib/fprintd &
-# or
-sudo systemctl start fprintd   # if you use a systemd compatibility layer
-```
-
 ---
 
-## 2. Check the reader is detected
+## 2. Start the daemon
+
+There is no default OpenRC service for fprintd. Start it directly:
 
 ```bash
-fprintd-list "$USER"
-lsusb | grep -iE 'finger|synaptics|goodix|elan|validity'
+# Find the binary
+find /usr -name 'fprintd' 2>/dev/null
+
+# Start it (most common path)
+sudo /usr/lib/fprintd &
+```
+
+### Make it start on boot
+
+Create a simple OpenRC service:
+
+```bash
+sudo tee /etc/init.d/fprintd << 'EOT'
+#!/sbin/openrc-run
+
+name="fprintd"
+command="/usr/lib/fprintd"
+command_background=true
+pidfile="/run/fprintd.pid"
+EOT
+
+sudo chmod +x /etc/init.d/fprintd
+sudo rc-update add fprintd default
+sudo rc-service fprintd start
+```
+
+If the binary is not at `/usr/lib/fprintd`, change the `command=` line to the path returned by `find`.
+
+Check it is running:
+
+```bash
+ps aux | grep fprintd | grep -v grep
 ```
 
 ---
 
 ## 3. Available fingers
 
-| Finger name              | Description        |
-|--------------------------|--------------------|
-| `left-thumb`             | Left thumb         |
-| `left-index-finger`      | Left index         |
-| `left-middle-finger`     | Left middle        |
-| `left-ring-finger`       | Left ring          |
-| `left-little-finger`     | Left little        |
-| `right-thumb`            | Right thumb        |
-| `right-index-finger`     | Right index (default) |
-| `right-middle-finger`    | Right middle       |
-| `right-ring-finger`      | Right ring         |
-| `right-little-finger`    | Right little       |
+| Name                    | Finger            |
+|-------------------------|-------------------|
+| `left-thumb`            | Left thumb        |
+| `left-index-finger`     | Left index        |
+| `left-middle-finger`    | Left middle       |
+| `left-ring-finger`      | Left ring         |
+| `left-little-finger`    | Left little       |
+| `right-thumb`           | Right thumb       |
+| `right-index-finger`    | Right index (default) |
+| `right-middle-finger`   | Right middle      |
+| `right-ring-finger`     | Right ring        |
+| `right-little-finger`   | Right little      |
 
 ---
 
 ## 4. Enroll fingerprints
 
-### Single finger (default = right index)
+### Default (right index finger)
 
 ```bash
 fprintd-enroll
@@ -69,68 +86,44 @@ fprintd-enroll -f right-thumb
 fprintd-enroll -f left-thumb
 ```
 
-You will be asked to place/swipe the finger several times until you see `enroll-completed`.
+Place/swipe the finger when prompted until you see `enroll-completed`.
 
-### Enroll several useful fingers (recommended)
+### Recommended set (both hands)
 
 ```bash
-# Right hand
 fprintd-enroll -f right-index-finger
 fprintd-enroll -f right-thumb
-fprintd-enroll -f right-middle-finger
-
-# Left hand (backup)
 fprintd-enroll -f left-index-finger
 fprintd-enroll -f left-thumb
 ```
 
-### Enroll every finger (optional)
+### List and test
 
 ```bash
-for finger in left-thumb left-index-finger left-middle-finger left-ring-finger left-little-finger \
-              right-thumb right-index-finger right-middle-finger right-ring-finger right-little-finger; do
-    echo "=== Enrolling $finger ==="
-    fprintd-enroll -f "$finger"
-done
-```
-
----
-
-## 5. List and verify
-
-```bash
-# List enrolled fingers
 fprintd-list "$USER"
-
-# Test verification
 fprintd-verify
 ```
 
+### Delete all and start again
+
+```bash
+fprintd-delete "$USER"
+```
+
 ---
 
-## 6. Enable fingerprint in PAM
+## 5. Enable fingerprint for login / sudo / polkit
 
-### Login / session
-
-Edit (as root):
+### Login
 
 ```bash
 sudo nano /etc/pam.d/system-local-login
 ```
 
-Add this line **at the very top** of the `auth` section (before any other `auth` lines):
+Add this line **at the very top** of the file (before other `auth` lines):
 
 ```
 auth      sufficient    pam_fprintd.so
-```
-
-Example:
-
-```
-#%PAM-1.0
-auth      sufficient    pam_fprintd.so
-auth      include       system-login
-...
 ```
 
 ### sudo
@@ -139,13 +132,13 @@ auth      include       system-login
 sudo nano /etc/pam.d/sudo
 ```
 
-Add at the top of the auth section:
+Add at the top:
 
 ```
 auth      sufficient    pam_fprintd.so
 ```
 
-### polkit (graphical password prompts)
+### Graphical password prompts (polkit)
 
 ```bash
 sudo nano /etc/pam.d/polkit-1
@@ -157,53 +150,33 @@ Add at the top:
 auth      sufficient    pam_fprintd.so
 ```
 
-> **Note:** `sufficient` means fingerprint success grants access immediately. If the finger fails or is not enrolled, it falls through to the normal password.
+`sufficient` means: if the fingerprint succeeds, access is granted; if it fails, the normal password prompt is still used.
 
 ---
 
-## 7. Delete fingerprints
+## 6. Test
 
 ```bash
-# Delete all fingerprints for the current user
-fprintd-delete "$USER"
+# Should ask for fingerprint
+sudo -k
+sudo true
 
-# Then re-enroll as needed
+# Or log out and try logging in with your finger
 ```
 
 ---
 
-## 8. Make fprintd start on boot (Artix)
+## Files / commands summary
 
-Create a simple OpenRC service:
-
-```bash
-sudo tee /etc/init.d/fprintd << 'EOF'
-#!/sbin/openrc-run
-command="/usr/lib/fprintd"
-command_background=true
-pidfile="/run/fprintd.pid"
-EOF
-
-sudo chmod +x /etc/init.d/fprintd
-sudo rc-update add fprintd default
-sudo rc-service fprintd start
-```
-
-If the binary path is different:
-
-```bash
-find /usr -name 'fprintd' 2>/dev/null
-```
+| Item | Purpose |
+|------|---------|
+| `fprintd` package | Driver + tools |
+| `/etc/init.d/fprintd` | OpenRC service (created by you) |
+| `fprintd-enroll -f <finger>` | Enroll a finger |
+| `/etc/pam.d/system-local-login` | Login with fingerprint |
+| `/etc/pam.d/sudo` | sudo with fingerprint |
+| `/etc/pam.d/polkit-1` | GUI auth with fingerprint |
 
 ---
 
-## 9. Tips
-
-- Enroll at least one finger from each hand.
-- Wet, dirty, or injured fingers may fail — keep a password fallback.
-- Some readers only support swipe; others support press. Follow the on-screen prompts.
-- After PAM changes, a new login session is required for fingerprint login to appear.
-
----
-
-*Tested for Artix / Arch + LXQt + KWin Wayland setups.*
+*Artix OpenRC + LXQt – no systemd required.*
