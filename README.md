@@ -1,6 +1,6 @@
 # portix-linux
 
-**Artix OpenRC + LXQt Wayland with KWin (project ongoing)**
+**Artix OpenRC LXQt Wayland with KWin & .XZM Module implementation (project ongoing)**
 
 Personal take on Artix Linux, inspired by Porteus Linux and its derivatives (especially the modular `.xzm` package approach).
 
