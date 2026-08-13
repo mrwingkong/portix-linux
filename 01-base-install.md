@@ -238,7 +238,7 @@ umount -R /mnt
 reboot
 ```
 
-After reboot, log in as **myname** and continue with **02-post-install.md**.
+After reboot, TTY log in username & password - desktop start session command is startlxqtwayland. (fingerprint for password once biometrics setup complete) continue with **02-post-install.md**.
 
 ---
 
