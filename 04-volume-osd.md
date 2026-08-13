@@ -101,7 +101,7 @@ EOF
 ## 3. Disable LXQt notification daemon (so swaync owns the bus)
 
 ```bash
-killall lxqt-notificationd 2>/dev/null
+killall lxqt-notifications 2>/dev/null
 ```
 
 ```bash
@@ -109,11 +109,11 @@ mkdir -p ~/.config/autostart
 ```
 
 ```bash
-cat > ~/.config/autostart/lxqt-notificationd.desktop << 'EOF'
+cat > ~/.config/autostart/lxqt-notifications.desktop << 'EOF'
 [Desktop Entry]
 Type=Application
 Name=LXQt Notification Daemon
-Exec=lxqt-notificationd
+Exec=lxqt-notifications
 Hidden=true
 X-GNOME-Autostart-enabled=false
 EOF
