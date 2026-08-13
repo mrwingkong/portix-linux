@@ -100,7 +100,7 @@ EOF
 
 PowerDevil handles idle dimming, screen off, suspend, lid close and battery events under KWin.
 
-### Autostart
+### 5.1 Create the autostart file
 
 ```bash
 mkdir -p ~/.config/autostart
@@ -116,21 +116,52 @@ X-GNOME-Autostart-enabled=true
 EOF
 ```
 
-Start it for the current session:
+### 5.2 Start PowerDevil for the current session
+
+Run this exact command:
 
 ```bash
 /usr/lib/org_kde_powerdevil &
 ```
 
-### Open settings
+Check it is running:
+
+```bash
+ps aux | grep -i powerdevil | grep -v grep
+```
+
+You should see a process for `org_kde_powerdevil`.
+
+If it is not running, start it in the foreground (this is what fixed it during testing):
+
+```bash
+/usr/lib/org_kde_powerdevil
+```
+
+Leave it running, or press Ctrl+C and then start it again with `&`.
+
+### 5.3 Log out and log back in
+
+After creating the autostart file, log out and log back in so the session starts PowerDevil cleanly.
+
+Confirm after login:
+
+```bash
+ps aux | grep -i powerdevil | grep -v grep
+```
+
+### 5.4 Open settings
 
 ```bash
 systemsettings
 ```
 
-Go to **Energy Saving / Power Management** and set the values you prefer (dim, turn off screen, suspend, lid closed behaviour).
+Go to **Energy Saving / Power Management** and set your preferred values (dim, turn off screen, suspend, lid closed behaviour).
 
-### Disable PowerDevil brightness shortcuts (critical for later OSD guides)
+### 5.5 Disable PowerDevil brightness shortcuts (CRITICAL)
+
+Custom brightness scripts (guide 05) will own the brightness keys.  
+Disable PowerDevil’s copies so they do not conflict:
 
 1. Open **System Settings → Shortcuts**
 2. Search for `brightness`
@@ -140,7 +171,7 @@ Go to **Energy Saving / Power Management** and set the values you prefer (dim, t
    - Increase Screen Brightness by 1%
    - Decrease Screen Brightness by 1%
 
-PowerDevil still manages idle, lock, lid and battery – only the brightness keys are released for the custom scripts.
+PowerDevil still manages idle, lock, lid and battery – only the brightness keys are released.
 
 ---
 
@@ -221,7 +252,8 @@ echo 'KWIN_IM_SHOW_ALWAYS=1' >> ~/.config/environment.d/plasma-keyboard.conf
 
 ## 8. Audio hardware reset script (Intel SOF)
 
-This forces the Speaker and Headphone hardware channels to 100 % so software volume control works correctly. It is placed here (after all packages) so it can be used immediately and is also autostarted by the volume OSD guide.
+This forces the Speaker and Headphone hardware channels to 100 % so software volume control works correctly.  
+It is placed here (after all packages) so it can be used immediately and is also autostarted by the volume OSD guide.
 
 ```bash
 mkdir -p ~/.local/bin
