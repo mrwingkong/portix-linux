@@ -18,7 +18,7 @@ This repository provides clean, copy-paste Markdown guides for a fully working L
 | [04-volume-osd.md](04-volume-osd.md) | Volume keys + swaync OSD + ALSA hardware levels |
 | [05-brightness-osd.md](05-brightness-osd.md) | Adaptive brightness (true 0 % = off) + HDR/SDR memory + swaync OSD |
 | [06-wallpaper-orientation.md](06-wallpaper-orientation.md) | Orientation-aware wallpapers with swaybg (landscape ↔ portrait) |
-| [07-misc.md](07-misc.md) | Android Studio notes, .bashrc addons, GNOME Boxes + spice-vdagent, Brave, KVM group, desktop Exec fixes, etc. |
+| [07-misc-setup.md](07-misc-setup.md) | Android Studio notes, .bashrc addons, GNOME Boxes + spice-vdagent, Brave, KVM group, desktop Exec fixes, etc. |
 
 ### Key principles
 
