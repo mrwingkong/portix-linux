@@ -1,7 +1,7 @@
 # portix-linux
-**(A KWin & pman module intergration project)**
+**(KWin & pman module intergration project)**
 
-**Artix OpenRC + LXQt Wayland with KWin compositor**
+**Artix OpenRC Linux with LXQt Wayland using KWin compositor**
 
 Custom Artix Linux, inspired by Porteus Linux and its derivatives (especially the modular `.xzm` package approach).
 
