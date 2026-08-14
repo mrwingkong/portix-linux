@@ -1,6 +1,6 @@
 # portix-linux
 
-This guide includes complete steps to successfully install Artix Linux using Openrc including booting for UEFI & Legacy BIOS.
+This guide includes complete steps to successfully install Artix Linux using Openrc including booting for UEFI & Legacy BIOS. The project is strictly for wayland windowing system, if you require x11 xorg then install xorg-server & xorg-xinit during the base install. For x11 session type - startx, for a wayland session - startlxqtwayland. 
 
 **KWin compositor & pman .xzm module intergration project for the LXQT desktop enviorment**
 
