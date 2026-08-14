@@ -1,6 +1,6 @@
 # portix-linux
 
-**Artix OpenRC LXQt Wayland with KWin & .XZM Module implementation (project ongoing)**
+**Artix OpenRC + LXQt Wayland (KWin focus)**
 
 Personal take on Artix Linux, inspired by Porteus Linux and its derivatives (especially the modular `.xzm` package approach).
 
@@ -14,11 +14,12 @@ This repository provides clean, copy-paste Markdown guides for a fully working L
 |------|---------|
 | [01-base-install.md](01-base-install.md) | Disk partitioning, base system, desktop packages (includes both KWin + LabWC), GRUB, basic OpenRC services |
 | [02-post-install.md](02-post-install.md) | After first reboot – mirrors, extra packages, yay, PowerDevil, UK keyboard, Plasma virtual keyboard, audio reset, PipeWire autostarts |
-| [03-biometrics.md](03-biometrics.md) | Fingerprint reader (fprintd) + PAM for login/sudo/polkit |
-| [04-volume-osd.md](04-volume-osd.md) | Volume keys + swaync OSD + ALSA hardware levels |
-| [05-brightness-osd.md](05-brightness-osd.md) | Adaptive brightness (true 0 % = off) + HDR/SDR memory + swaync OSD |
-| [06-wallpaper-orientation.md](06-wallpaper-orientation.md) | Orientation-aware wallpapers with swaybg (landscape ↔ portrait) |
-| [07-misc-setup.md](07-misc-setup.md) | Android Studio notes, .bashrc addons, GNOME Boxes + spice-vdagent, Brave, KVM group, desktop Exec fixes, etc. |
+| [03-swaync-notifications.md](03-swaync-notifications.md) | Disable LXQt notification daemon + install and autostart swaync (required before volume/brightness OSD) |
+| [04-biometrics.md](04-biometrics.md) | Fingerprint reader (fprintd) + PAM for login/sudo/polkit |
+| [05-volume-osd.md](05-volume-osd.md) | Volume keys + swaync OSD + ALSA hardware levels |
+| [06-brightness-osd.md](06-brightness-osd.md) | Adaptive brightness (true 0 % = off) + HDR/SDR memory + swaync OSD |
+| [07-wallpaper-orientation.md](07-wallpaper-orientation.md) | Orientation-aware wallpapers with swaybg (landscape ↔ portrait) |
+| [08-misc.md](08-misc.md) | Android Studio notes, .bashrc addons, GNOME Boxes + spice-vdagent, Brave, KVM group, desktop Exec fixes, etc. |
 
 ### Key principles
 
