@@ -1,5 +1,5 @@
 # portix-linux
-**(KWin & pman module intergration project)**
+**(KWin & pman module intergration LXQT project)**
 
 **Artix OpenRC Linux with LXQt Wayland using KWin compositor**
 
