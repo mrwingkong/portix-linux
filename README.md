@@ -4,9 +4,9 @@ This guide includes complete steps to successfully install Artix Linux using Ope
 
 **This project uses KWin compositor and the pman specialized package manager wrapper for .xzm modules in the LXQT desktop enviorment. Inspired by Porteus Linux and its derivatives**.
 
-Originally developed and tested on the **Lenovo ThinkPad X1 2-in-1 Aura Edition (Intel Core Ultra) Laptop**.
+Originally developed and tested for the **Lenovo ThinkPad X1 2-in-1 Aura Edition (Intel Core Ultra) Laptop**.
 
-All testing has been on USB thumb drives! I am as of yet to find another 64bit computer hardware this setup does not run on. (maybe some trouble with bespoke wifi cards in macbooks ect.)
+All testing has been on USB thumb drives! I am as of yet to find another 64bit computer hardware this setup does not run on. Therefore this setup is great for portability and loading up on someone elses computer with minmal effort,  exactly the same as live disk distro's but without the read only restriction. Therfore fully installed and running as the distro should be, upgradable ect. (you may have some trouble with bespoke wifi cards such as broadcom ones on some macbooks ect. most usb ones and ethernet's should work fine)
 
 This repository provides clean, copy-paste Markdown guides for a fully working LXQt + KWin Wayland desktop on pure **OpenRC** (no systemd). LabWC is included in the base package list only so the LXQt session selector can offer a compositor choice on first boot; all detailed guides focus on the KWin path.
 
