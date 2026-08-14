@@ -1,4 +1,4 @@
-# portix-linux ##(A KWin & pman module intergration project)##
+# portix-linux **(A KWin & pman module intergration project)**
 
 **Artix OpenRC + LXQt Wayland with KWin compositor**
 
