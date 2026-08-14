@@ -10,9 +10,9 @@ This repository provides clean, copy-paste Markdown guides for a fully working L
 
 ### Support
 
-If these guides helped you, feel free to buy me a coffee:
+If these guides helped you, feel free to buy me a coffee or a beer, your support is appreciated.
 
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/YOURUSERNAME)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/mrwingkong)
 
 ---
 
