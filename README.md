@@ -1,10 +1,12 @@
 # portix-linux
 
-**Artix OpenRC + LXQt Wayland (KWin focus)**
+**KWin compositor & pman .xzm module intergration project for LXQT desktop enviorment**
 
-Personal take on Artix Linux, inspired by Porteus Linux and its derivatives (especially the modular `.xzm` package approach).
+A personal take on Artix Linux, inspired by Porteus Linux and its derivatives (especially the modular `.xzm` package approach).
 
-Originally developed and tested on the **Lenovo ThinkPad X1 2-in-1 Aura Edition (Intel Core Ultra)**.
+Originally developed and tested on the **Lenovo ThinkPad X1 2-in-1 Aura Edition (Intel Core Ultra) Laptop**.
+
+All testing has been on USB thumb drives! I am as of yet to find another 64bit computer hardware this setup does not run on. (maybe some trouble with bespoke wifi cards in macbooks ect.)
 
 This repository provides clean, copy-paste Markdown guides for a fully working LXQt + KWin Wayland desktop on pure **OpenRC** (no systemd). LabWC is included in the base package list only so the LXQt session selector can offer a compositor choice on first boot; all detailed guides focus on the KWin path.
 
