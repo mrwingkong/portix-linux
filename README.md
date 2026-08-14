@@ -2,9 +2,7 @@
 
 This guide includes complete steps to successfully install Artix Linux using Openrc including booting for UEFI & Legacy BIOS. The project is strictly for wayland windowing system, if you require x11 xorg then install xorg-server & xorg-xinit during the base install. For x11 session type - startx, for a wayland session - startlxqtwayland. 
 
-**KWin compositor & pman .xzm module intergration project for the LXQT desktop enviorment**
-
-THis is a personal take on Artix Linux, inspired by Porteus Linux and its derivatives (especially the modular `.xzm` package approach).
+**This project uses KWin compositor and the pman specialized package manager wrapper for .xzm modules in the LXQT desktop enviorment. Inspired by Porteus Linux and its derivatives**.
 
 Originally developed and tested on the **Lenovo ThinkPad X1 2-in-1 Aura Edition (Intel Core Ultra) Laptop**.
 
