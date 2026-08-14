@@ -1,8 +1,10 @@
 # portix-linux
 
-**KWin compositor & pman .xzm module intergration project for LXQT desktop enviorment**
+This guide includes complete steps to successfully install Artix Linux using Openrc including booting for UEFI & Legacy BIOS.
 
-A personal take on Artix Linux, inspired by Porteus Linux and its derivatives (especially the modular `.xzm` package approach).
+**KWin compositor & pman .xzm module intergration project for the LXQT desktop enviorment**
+
+THis is a personal take on Artix Linux, inspired by Porteus Linux and its derivatives (especially the modular `.xzm` package approach).
 
 Originally developed and tested on the **Lenovo ThinkPad X1 2-in-1 Aura Edition (Intel Core Ultra) Laptop**.
 
