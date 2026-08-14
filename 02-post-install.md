@@ -307,11 +307,12 @@ source ~/.bashrc
 
 Continue with the specialised guides in order:
 
-- **03-biometrics.md** – fingerprint
-- **04-volume-osd.md** – volume keys + OSD
-- **05-brightness-osd.md** – brightness keys + OSD
-- **06-wallpaper-orientation.md** – tablet mode wallpapers
-- **07-misc.md** – remaining extras
+- **03-swaync-notifications.md** – disable LXQt notifications + setup swaync
+- **04-biometrics.md** – fingerprint
+- **05-volume-osd.md** – volume keys + OSD
+- **06-brightness-osd.md** – brightness keys + OSD
+- **07-wallpaper-orientation.md** – tablet mode wallpapers
+- **08-misc.md** – remaining extras
 
 A full logout/login (or reboot) after this post-install is recommended so all environment files and autostart entries take effect.
 
