@@ -1,8 +1,8 @@
-# portix-linux
+# portix-linux (A KWin & pman module intergration project)
 
-**Artix OpenRC + LXQt Wayland (KWin focus)**
+**Artix OpenRC + LXQt Wayland with KWin compositor**
 
-Personal take on Artix Linux, inspired by Porteus Linux and its derivatives (especially the modular `.xzm` package approach).
+Custom Artix Linux, inspired by Porteus Linux and its derivatives (especially the modular `.xzm` package approach).
 
 Originally developed and tested on the **Lenovo ThinkPad X1 2-in-1 Aura Edition (Intel Core Ultra)**.
 
