@@ -1,6 +1,6 @@
 # portix-linux
 
-Complete step-by-step guides to install **Artix Linux (OpenRC)** with an **LXQt + KWin** desktop. Other desktop environments should work with tweaking of the packages installed. 
+Complete step-by-step guides to install **Artix Linux (OpenRC)** with an **LXQt + KWin** operating system. Other desktop environments should work with tweaking of the packages installed. 
 
 This project is focused on Wayland display server protocol. If you need X11, install `xorg-server` and `xorg-xinit` during the base install. 
 
