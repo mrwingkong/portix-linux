@@ -1,10 +1,8 @@
 # portix-linux
 
-Complete step-by-step guides to install **Artix Linux (OpenRC)** with an **LXQt + KWin Wayland** desktop. KDE Plasma will also works fine if fully installed. 
+Complete step-by-step guides to install **Artix Linux (OpenRC)** with an **LXQt + KWin Wayland** desktop. Other desktop environments should work with tweaking of the packages installed. 
 
-This project is focused on Wayland.  
-If you need X11 instead, install `xorg-server` and `xorg-xinit` during the base install, then start the session with `startx`.  
-For Wayland use `startlxqtwayland`.
+This project is focused on Wayland display server protocol. If you need X11, install `xorg-server` and `xorg-xinit` during the base install. 
 
 **Features**
 - Pure OpenRC (no systemd)
