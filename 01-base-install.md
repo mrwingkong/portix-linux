@@ -238,7 +238,7 @@ umount -R /mnt
 reboot
 ```
 
-After reboot, TTY log in as **myname** + password, start the session with  startlxqtwayland or for X11 startx if additional xorg packages installed. Then continue with **02-post-install.md**.
+After reboot, TTY log in as **myname** + password, start the session with  "startlxqtwayland" or for X11 "startx" if additional xorg packages installed. Then continue with **02-post-install.md**.
 
 ---
 
