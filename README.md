@@ -15,7 +15,7 @@ Also run's well on a vast array of 64-bit hardware, tested on various laptops, d
 
 ### Support
 
-If these guides helped you in any way, feel free to buy me a coffee or a beer — your support is appreciated.
+If these guides helped you in any way, say thanks & buy me a coffee or a beer ;-) your support is appreciated.
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/mrwingkong)
 
