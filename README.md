@@ -10,8 +10,8 @@ This project is focused on Wayland display server protocol. If you need X11, ins
 - Optional modular `.xzm` packages (inspired by Porteus Linux)
 - Designed for portability — works great from a USB stick as a full installed system
 
-Originally built for **Lenovo ThinkPad X1 2-in-1 Aura Edition (Intel Core Ultra) Laptop**.  
-Run's well on a vast array of 64-bit hardware, tested on various laptops, desktops and macbook. Essentialy take your operating system wherever you go. (Please Note: some unusual Wi-Fi cards (e.g. certain Broadcom chips in MacBooks) may need extra drivers.)
+Originally built for *Lenovo ThinkPad X1 2-in-1 Aura Edition (Intel Core Ultra) Laptop*.  
+**Run's well on a vast array of 64-bit hardware, tested on various laptops, desktops and macbook. Essentialy take your operating system wherever you go. (Please Note: some unusual Wi-Fi cards (e.g. certain Broadcom chips in MacBooks) may need extra drivers.)**
 
 ### Support
 
