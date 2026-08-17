@@ -114,7 +114,7 @@ fprintd-delete "$USER"
 
 ---
 
-## 4. Enable fingerprint for login / sudo / polkit
+## 4. Enable fingerprint for login and sudo
 
 ### Login
 
@@ -140,23 +140,41 @@ Add at the top:
 auth      sufficient    pam_fprintd.so
 ```
 
-### Graphical password prompts (polkit)
+`sufficient` means: fingerprint success grants access; failure falls back to password.
 
-```bash
-sudo nano /etc/pam.d/polkit-1
-```
+---
 
-Add at the top:
+## 5. Important – Do NOT create a one-line polkit file
+
+**Do not** create or replace `/etc/pam.d/polkit-1` with only the fprintd line.
+
+A file that contains only:
 
 ```
 auth      sufficient    pam_fprintd.so
 ```
 
-`sufficient` means: fingerprint success grants access; failure falls back to password.
+breaks `pkexec`. That causes the LXQt backlight panel widget to crash the entire panel when clicked.
+
+If you already created that file, fix it with:
+
+```bash
+sudo mv /etc/pam.d/polkit-1 /etc/pam.d/polkit-1.fingerprint-backup
+```
+
+Then test:
+
+```bash
+pkexec true
+```
+
+It should ask for your password (or succeed) instead of failing with “Not authorized”.
+
+Fingerprint for graphical polkit prompts is optional and can be left out. Login and sudo fingerprint still work without touching polkit.
 
 ---
 
-## 5. Test
+## 6. Test
 
 ```bash
 sudo -k
@@ -170,14 +188,14 @@ Also try logging out and logging back in with your finger.
 
 ## Files / commands summary
 
-| Item                          | Purpose                          |
-|-------------------------------|----------------------------------|
-| `fprintd` package             | Driver + tools                   |
-| `/etc/init.d/fprintd`         | OpenRC service (created above)   |
-| `fprintd-enroll -f <finger>`  | Enroll a finger                  |
+| Item                            | Purpose                        |
+|---------------------------------|--------------------------------|
+| `fprintd` package               | Driver + tools                 |
+| `/etc/init.d/fprintd`           | OpenRC service (created above) |
+| `fprintd-enroll -f <finger>`    | Enroll a finger                |
 | `/etc/pam.d/system-local-login` | Login with fingerprint         |
-| `/etc/pam.d/sudo`             | sudo with fingerprint            |
-| `/etc/pam.d/polkit-1`         | GUI auth with fingerprint        |
+| `/etc/pam.d/sudo`               | sudo with fingerprint          |
+| `/etc/pam.d/polkit-1`           | **Do not create a one-line version** |
 
 ---
 
