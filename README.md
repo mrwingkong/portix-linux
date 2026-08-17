@@ -11,11 +11,11 @@ This project is focused on Wayland display server protocol. If you need X11, ins
 - Designed for portability — works great from a USB stick as a full installed system
 
 Originally built to run on **Lenovo ThinkPad X1 2-in-1 Aura Edition (Intel Core Ultra) Laptop**.  
-Also run's well on a vast array of 64-bit hardware, tested on various laptops, desktops and macbook. Essentialy take your operating system where ever you go. (Please Note: some unusual Wi-Fi cards (e.g. certain Broadcom chips in MacBooks) may need extra drivers.)
+Also run's well on a vast array of 64-bit hardware, tested on various laptops, desktops and macbook. Essentialy take your operating system wherever you go. (Please Note: some unusual Wi-Fi cards (e.g. certain Broadcom chips in MacBooks) may need extra drivers.)
 
 ### Support
 
-If these guides helped you, feel free to buy me a coffee or a beer — your support is appreciated.
+If these guides helped you in any way, feel free to buy me a coffee or a beer — your support is appreciated.
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/mrwingkong)
 
