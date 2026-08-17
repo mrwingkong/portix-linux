@@ -47,7 +47,30 @@ EOF
 
 ---
 
-## 2. Autostart swaync
+## 2. Create local config folder (defaults, no custom changes)
+
+Copy the system defaults into your home directory so you can edit them later without touching the system files.  
+These are the stock files — behaviour stays exactly the same as the current GitHub guides.
+
+```bash
+mkdir -p ~/.config/swaync
+```
+
+```bash
+cp /etc/xdg/swaync/config.json ~/.config/swaync/
+cp /etc/xdg/swaync/style.css ~/.config/swaync/
+```
+
+You now have:
+
+- `~/.config/swaync/config.json`
+- `~/.config/swaync/style.css`
+
+Edit them only when you want to customise appearance or behaviour later.
+
+---
+
+## 3. Autostart swaync
 
 ```bash
 cat > ~/.config/autostart/swaync.desktop << 'EOF'
@@ -61,7 +84,7 @@ EOF
 
 ---
 
-## 3. Start for the current session
+## 4. Start for the current session
 
 ```bash
 pkill swaync 2>/dev/null
@@ -70,7 +93,7 @@ swaync &
 
 ---
 
-## 4. Test
+## 5. Test
 
 ```bash
 notify-send -u low -t 2000 "Test" "SwayNC is working"
@@ -82,16 +105,8 @@ You should see a notification appear.
 
 ## Notes
 
-- Default config lives in `/etc/xdg/swaync/`
-- You can copy and customise it later if desired:
-
-```bash
-mkdir -p ~/.config/swaync
-cp /etc/xdg/swaync/config.json ~/.config/swaync/
-cp /etc/xdg/swaync/style.css ~/.config/swaync/
-```
-
 - swaync is required for the volume and brightness OSD scripts to show proper progress bars.
+- The local copies in `~/.config/swaync/` are identical to the system defaults on first install. Change them only when you want a custom look or behaviour.
 
 ---
 
