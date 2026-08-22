@@ -148,7 +148,7 @@ Hostname:
 
 ```bash
 echo "myhostname" > /etc/hostname
-echo 'hostname="myhostname"' > /etc/conf.d/hostname
+echo "hostname=\"myhostname\"" > /etc/conf.d/hostname
 ```
 
 Hosts file:
