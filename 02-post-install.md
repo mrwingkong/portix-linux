@@ -27,7 +27,7 @@ sudo pacman -S --needed \
   fprintd qt6-tools xdg-desktop-portal xdg-desktop-portal-kde \
   swaybg swaync plasma-keyboard libnotify brightnessctl sxhkd \
   iio-sensor-proxy python-pyqt6 \
-  libarchive libstatgrab git wget unzip xz \
+  libarchive libstatgrab git wget zip unzip xz \
   btrfs-progs ntfs-3g exfatprogs xfsprogs e2fsprogs f2fs-tools dosfstools \
   squashfs-tools sed mujs clang cmake ninja qemu-base libbsd
 ```
