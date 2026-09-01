@@ -2,7 +2,9 @@
 
 Orientation-aware wallpapers for tablet mode (landscape ↔ portrait) using swaybg.
 
-When the device rotates, LXQt’s built-in wallpaper does not re-layout correctly. This setup replaces it with swaybg and automatically switches between two properly sized images.
+Also recovers the LXQt panel and desktop wallpaper when a display is plugged in or unplugged.
+
+When the device rotates, LXQt’s built-in wallpaper does not re-layout correctly. This setup replaces it with swaybg and automatically switches between two images. One swaybg instance paints **every** connected screen. You do not add display names when you plug in a monitor.
 
 ---
 
@@ -10,13 +12,13 @@ When the device rotates, LXQt’s built-in wallpaper does not re-layout correctl
 
 These are normally required and were installed in the earlier stages:
 
-- Packages: `swaybg`, `iio-sensor-proxy`, `python-pyqt6`
+- Packages: `swaybg`, `iio-sensor-proxy`, `python-pyqt6`, `kscreen`
 - `~/.local/bin` exists and is in `$PATH`
 
 If any are missing:
 
 ```bash
-sudo pacman -S --needed swaybg iio-sensor-proxy python-pyqt6
+sudo pacman -S --needed swaybg iio-sensor-proxy python-pyqt6 kscreen
 mkdir -p ~/.local/bin
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
@@ -92,28 +94,40 @@ Or do it graphically:
 
 ## 3. Wallpaper paths
 
-Edit the two variables in the script below to match your actual image files.
-
-Suggested locations:
+Put your images here (names can differ, but then edit the script):
 
 ```
-LANDSCAPE="/home/myname/Pictures/landscape.png"
-PORTRAIT="/home/myname/Pictures/portrait.png"
+/home/myname/Pictures/landscape.jpg
+/home/myname/Pictures/portrait.jpg
 ```
+
+If you only have one image, point **both** variables at the same file.
 
 ---
 
-## 4. Orientation script
+## 4. Combined script
+
+This one script:
+
+- switches landscape / portrait on rotation
+- paints wallpaper on every connected display
+- restarts the LXQt panel and desktop after a monitor is plugged or unplugged
+- re-applies the transparent desktop so the laptop does not stay black after unplugging externals
 
 ```bash
 cat > ~/.local/bin/lxqt-orientation-wallpaper.sh << 'EOF'
 #!/bin/bash
-# Orientation wallpaper switcher for LXQt + KWin
-
-LANDSCAPE="/home/myname/Pictures/landscape.png"
-PORTRAIT="/home/myname/Pictures/portrait.png"
-OUTPUT="eDP-1"
+LANDSCAPE="/home/myname/Pictures/landscape.jpg"
+PORTRAIT="/home/myname/Pictures/portrait.jpg"
 MODE="fill"
+RECOVERING=0
+
+outputs_key() {
+    for s in /sys/class/drm/card*-*/status; do
+        [ -f "$s" ] || continue
+        echo "$(basename "$(dirname "$s")"):$(cat "$s")"
+    done | sort | tr '\n' ' '
+}
 
 get_orientation() {
     python3 -c '
@@ -126,41 +140,59 @@ print("portrait" if h > w else "landscape")
 ' 2>/dev/null || echo "landscape"
 }
 
-set_wallpaper() {
-    local orient="$1"
-    local img
-    if [ "$orient" = "portrait" ]; then
-        img="$PORTRAIT"
-    else
-        img="$LANDSCAPE"
-    fi
-
+apply_wallpapers() {
+    local img="$LANDSCAPE"
+    [ "$1" = "portrait" ] && [ -f "$PORTRAIT" ] && img="$PORTRAIT"
     [ -f "$img" ] || return
-
     pkill -x swaybg 2>/dev/null
-    sleep 0.4
-    swaybg -o "$OUTPUT" -i "$img" -m "$MODE" &
+    sleep 0.3
+    swaybg -i "$img" -m "$MODE" >/dev/null 2>&1 &
 }
 
-# Wait for session to settle
-sleep 5
+recover_desktop() {
+    pkill -x lxqt-panel 2>/dev/null
+    pkill -x pcmanfm-qt 2>/dev/null
+    pkill -x swaybg 2>/dev/null
+    sleep 1.2
+    pcmanfm-qt --desktop >/dev/null 2>&1 &
+    sleep 0.6
+    pcmanfm-qt --set-wallpaper "$HOME/Pictures/transparent.svg" --wallpaper-mode stretch >/dev/null 2>&1
+    lxqt-panel >/dev/null 2>&1 &
+    sleep 2
+    apply_wallpapers "$current_orient"
+}
 
-current=$(get_orientation)
-set_wallpaper "$current"
+sleep 6
 
-# Monitor for changes
+current_orient=$(get_orientation)
+current_outs=$(outputs_key)
+apply_wallpapers "$current_orient"
+
 while true; do
-    sleep 1.0
-    new=$(get_orientation)
-    if [ "$new" != "$current" ]; then
-        current="$new"
-        sleep 1.5          # give KWin time to finish rotation
-        set_wallpaper "$current"
+    sleep 1.2
+    new_orient=$(get_orientation)
+    new_outs=$(outputs_key)
+
+    if [ "$new_orient" != "$current_orient" ]; then
+        current_orient="$new_orient"
+        sleep 1.4
+        apply_wallpapers "$current_orient"
+    fi
+
+    if [ -n "$new_outs" ] && [ "$new_outs" != "$current_outs" ] && [ "$RECOVERING" -eq 0 ]; then
+        RECOVERING=1
+        current_outs="$new_outs"
+        sleep 3
+        recover_desktop
+        current_outs=$(outputs_key)
+        RECOVERING=0
     fi
 done
 EOF
 chmod +x ~/.local/bin/lxqt-orientation-wallpaper.sh
 ```
+
+Change `myname` and the two picture paths to match your files.
 
 ---
 
@@ -190,46 +222,64 @@ OnlyShowIn=LXQt;
 EOF
 ```
 
+Do **not** add a second hotplug watcher. This script already does that job.
+
 ---
 
-## 6. Test right now
+## 6. Panel screen setting
+
+While the panel is visible:
+
+1. Right-click the panel → **Panel Settings**
+2. Put the panel on the laptop screen (`eDP-1`), or on all screens if that option exists
+3. Do not lock the panel only to `DP-1` / `DP-2`
+
+If the panel lives only on an external monitor, unplugging that monitor will leave you with no panel until the script restarts it.
+
+---
+
+## 7. Test right now
 
 ```bash
 rc-service iio-sensor-proxy status
-pkill -f lxqt-orientation-wallpaper 2>/dev/null
+pkill -f lxqt-orientation-wallpaper.sh 2>/dev/null
 pkill -x swaybg 2>/dev/null
 ~/.local/bin/lxqt-orientation-wallpaper.sh &
 ```
 
-Fold the screen and confirm the wallpaper switches.
+Wait about 8 seconds, then:
+
+- Fold the screen → wallpaper should switch
+- Plug in a second display → panel may flicker once, wallpaper should appear on all screens
+- Unplug the external → panel and desktop right-click should return on the laptop, wallpaper should return after a few seconds
 
 ---
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
-| Symptom                        | Likely cause                  | Fix                                      |
-|--------------------------------|-------------------------------|------------------------------------------|
-| Nothing happens when folding   | Sensor not running / KWin not rotating | Check `iio-sensor-proxy` and Display settings |
-| Only black background          | Desktop not transparent       | Re-apply the transparent SVG             |
-| Wrong image                    | Incorrect path in script      | Edit `LANDSCAPE` / `PORTRAIT` variables  |
-| Multiple swaybg processes      | Old instances left running    | `pkill -x swaybg`                        |
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Nothing happens when folding | Sensor not running / KWin not rotating | Check `iio-sensor-proxy` and Display settings |
+| Black background on all screens | Desktop not transparent, or swaybg not running | Re-apply the transparent SVG, then `pgrep -af swaybg` |
+| Laptop stays black after unplugging externals | Transparent wallpaper was lost | Confirm `~/Pictures/transparent.svg` exists; script re-applies it |
+| Panel gone after unplug | Panel was assigned only to the external | Set panel to laptop / all screens; wait 3–6 seconds for recover |
+| Wrong image | Incorrect path in script | Edit `LANDSCAPE` / `PORTRAIT` |
+| Wallpaper flashes a few times | Recover is restarting swaybg | Normal; the lock stops most double-fires |
 
 Useful diagnostics:
 
 ```bash
 rc-service iio-sensor-proxy status
-pgrep -a lxqt-orientation-wallpaper
-pgrep -a swaybg
+pgrep -af lxqt-orientation-wallpaper
+pgrep -af swaybg
+ls -l ~/Pictures/transparent.svg ~/Pictures/landscape.jpg
 ```
 
+Manual wallpaper test (should paint every current screen):
+
 ```bash
-python3 -c '
-from PyQt6.QtGui import QGuiApplication
-import sys
-app = QGuiApplication(sys.argv)
-s = app.primaryScreen()
-print(s.size().width(), "x", s.size().height())
-'
+pkill -x swaybg 2>/dev/null
+swaybg -i /home/myname/Pictures/landscape.jpg -m fill &
 ```
 
 ---
