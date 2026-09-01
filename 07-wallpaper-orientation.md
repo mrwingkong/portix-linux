@@ -113,6 +113,7 @@ This one script:
 - paints wallpaper on every connected display
 - restarts the LXQt panel and desktop after a monitor is plugged or unplugged
 - re-applies the transparent desktop so the laptop does not stay black after unplugging externals
+- allows **only one** copy of the script and **only one** panel (stops stacked panels after a long session + reconnect)
 
 ```bash
 cat > ~/.local/bin/lxqt-orientation-wallpaper.sh << 'EOF'
@@ -121,6 +122,18 @@ LANDSCAPE="/home/myname/Pictures/landscape.jpg"
 PORTRAIT="/home/myname/Pictures/portrait.jpg"
 MODE="fill"
 RECOVERING=0
+LOCKDIR="/tmp/lxqt-orientation-wallpaper.lock"
+
+# Only one watcher. Extra autostarts / leftover copies exit here.
+if ! mkdir "$LOCKDIR" 2>/dev/null; then
+    if [ -f "$LOCKDIR/pid" ] && kill -0 "$(cat "$LOCKDIR/pid")" 2>/dev/null; then
+        exit 0
+    fi
+    rm -rf "$LOCKDIR"
+    mkdir "$LOCKDIR" || exit 0
+fi
+echo $$ > "$LOCKDIR/pid"
+trap 'rm -rf "$LOCKDIR"' EXIT
 
 outputs_key() {
     for s in /sys/class/drm/card*-*/status; do
@@ -140,6 +153,22 @@ print("portrait" if h > w else "landscape")
 ' 2>/dev/null || echo "landscape"
 }
 
+panel_count() {
+    pgrep -xc lxqt-panel 2>/dev/null || echo 0
+}
+
+ensure_one_panel() {
+    local n
+    n=$(panel_count)
+    [ "$n" -le 1 ] && return
+
+    pkill -x lxqt-panel 2>/dev/null
+    sleep 0.4
+    pkill -9 -x lxqt-panel 2>/dev/null
+    sleep 0.3
+    lxqt-panel >/dev/null 2>&1 &
+}
+
 apply_wallpapers() {
     local img="$LANDSCAPE"
     [ "$1" = "portrait" ] && [ -f "$PORTRAIT" ] && img="$PORTRAIT"
@@ -153,11 +182,21 @@ recover_desktop() {
     pkill -x lxqt-panel 2>/dev/null
     pkill -x pcmanfm-qt 2>/dev/null
     pkill -x swaybg 2>/dev/null
-    sleep 1.2
+    sleep 0.5
+    pkill -9 -x lxqt-panel 2>/dev/null
+    sleep 0.8
+
     pcmanfm-qt --desktop >/dev/null 2>&1 &
     sleep 0.6
     pcmanfm-qt --set-wallpaper "$HOME/Pictures/transparent.svg" --wallpaper-mode stretch >/dev/null 2>&1
-    lxqt-panel >/dev/null 2>&1 &
+
+    # Start exactly one panel
+    if [ "$(panel_count)" -eq 0 ]; then
+        lxqt-panel >/dev/null 2>&1 &
+        sleep 0.5
+    fi
+    ensure_one_panel
+
     sleep 2
     apply_wallpapers "$current_orient"
 }
@@ -167,9 +206,12 @@ sleep 6
 current_orient=$(get_orientation)
 current_outs=$(outputs_key)
 apply_wallpapers "$current_orient"
+ensure_one_panel
 
 while true; do
     sleep 1.2
+    ensure_one_panel
+
     new_orient=$(get_orientation)
     new_outs=$(outputs_key)
 
@@ -224,6 +266,14 @@ EOF
 
 Do **not** add a second hotplug watcher. This script already does that job.
 
+If extra copies were started by hand during testing, kill them once:
+
+```bash
+pkill -f lxqt-orientation-wallpaper.sh
+rm -rf /tmp/lxqt-orientation-wallpaper.lock
+~/.local/bin/lxqt-orientation-wallpaper.sh &
+```
+
 ---
 
 ## 6. Panel screen setting
@@ -243,6 +293,7 @@ If the panel lives only on an external monitor, unplugging that monitor will lea
 ```bash
 rc-service iio-sensor-proxy status
 pkill -f lxqt-orientation-wallpaper.sh 2>/dev/null
+rm -rf /tmp/lxqt-orientation-wallpaper.lock
 pkill -x swaybg 2>/dev/null
 ~/.local/bin/lxqt-orientation-wallpaper.sh &
 ```
@@ -252,6 +303,13 @@ Wait about 8 seconds, then:
 - Fold the screen → wallpaper should switch
 - Plug in a second display → panel may flicker once, wallpaper should appear on all screens
 - Unplug the external → panel and desktop right-click should return on the laptop, wallpaper should return after a few seconds
+
+Check there is only one panel and one watcher:
+
+```bash
+pgrep -xc lxqt-panel
+pgrep -af lxqt-orientation-wallpaper
+```
 
 ---
 
@@ -263,14 +321,27 @@ Wait about 8 seconds, then:
 | Black background on all screens | Desktop not transparent, or swaybg not running | Re-apply the transparent SVG, then `pgrep -af swaybg` |
 | Laptop stays black after unplugging externals | Transparent wallpaper was lost | Confirm `~/Pictures/transparent.svg` exists; script re-applies it |
 | Panel gone after unplug | Panel was assigned only to the external | Set panel to laptop / all screens; wait 3–6 seconds for recover |
+| Many panels stacked | Several recoveries or several script copies | Script now kills extras; run the one-shot cleanup below |
 | Wrong image | Incorrect path in script | Edit `LANDSCAPE` / `PORTRAIT` |
 | Wallpaper flashes a few times | Recover is restarting swaybg | Normal; the lock stops most double-fires |
+
+One-shot cleanup if panels are already stacked:
+
+```bash
+pkill -f lxqt-orientation-wallpaper.sh
+pkill -9 -x lxqt-panel
+rm -rf /tmp/lxqt-orientation-wallpaper.lock
+sleep 0.5
+lxqt-panel &
+~/.local/bin/lxqt-orientation-wallpaper.sh &
+```
 
 Useful diagnostics:
 
 ```bash
 rc-service iio-sensor-proxy status
 pgrep -af lxqt-orientation-wallpaper
+pgrep -xc lxqt-panel
 pgrep -af swaybg
 ls -l ~/Pictures/transparent.svg ~/Pictures/landscape.jpg
 ```
