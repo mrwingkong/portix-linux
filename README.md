@@ -35,6 +35,7 @@ If these guides helped you in any way, how about a thank you beer or coffee. You
 | [07-wallpaper-orientation.md](07-wallpaper-orientation.md) | Landscape / portrait wallpapers for tablet mode |
 | [08-misc.md](08-misc.md) | Extra tools (Android Studio, GNOME Boxes, bashrc tweaks, etc.) |
 | [09-qterminal-tablet-keyboard.md](09-qterminal-tablet-keyboard.md) | Plasma Keyboard held open for QTerminal in tablet mode 
+| [10-breeze-window-theme.md](10-breeze-window-theme.md) | Kwin custom window theme
 
 ### Important notes
 
